@@ -1,4 +1,4 @@
-import { ClipboardIcon, MicIcon } from 'lucide-react';
+import { ClipboardIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -17,14 +17,14 @@ export default function Home() {
             </div>
           </Button>
         </Link>
-        <Link href="/interview" className="w-full">
+        {/* <Link href="/interview" className="w-full">
           <Button variant="outline" className="w-full" size="lg">
             <div className="flex items-center justify-center w-full gap-1">
               <MicIcon />
               <p>면접</p>
             </div>
           </Button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
