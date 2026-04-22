@@ -13,6 +13,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3,
     interviewRatio: 30,
     evaluationRatio: '자체 기준',
+    approximatecut: 1.3,
   },
   '서울대학교::학종::일반': {
     university: '서울대학교',
@@ -25,6 +26,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 2,
     interviewRatio: 50,
     evaluationRatio: '자체 기준',
+    approximatecut: 1.7,
   },
   '연세대학교::교과::추천형': {
     university: '연세대학교',
@@ -34,8 +36,9 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSum: 5,
     minimumGradeNotes:
       '자연 2합 5(수학 포함), 인문 2합 4(국/수 중 1 포함), 의치약 1등급 2개, 영어 3, 한국사 4',
-    notes: '',
-    documentEvaluationRatio: 20,
+    notes: '서류평가 출결 10%',
+    documentEvaluationRatio: 10,
+    approximatecut: 1.4,
   },
   '연세대학교::학종::활동우수형': {
     university: '연세대학교',
@@ -49,6 +52,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 4,
     interviewRatio: 40,
     evaluationRatio: '70(학업+진로) : 30',
+    approximatecut: 1.8,
   },
   '고려대학교::교과::학교추천': {
     university: '고려대학교',
@@ -58,7 +62,8 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSum: 7,
     minimumGradeNotes: '인문/자연 3합 7, 의예 4합 5, 한국사 4',
     notes: '',
-    documentEvaluationRatio: null,
+    documentEvaluationRatio: 10,
+    approximatecut: 1.4,
   },
   '고려대학교::학종::계열적합': {
     university: '고려대학교',
@@ -71,6 +76,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 5,
     interviewRatio: 40,
     evaluationRatio: '40 : 40 : 20',
+    approximatecut: 1.8,
   },
   '고려대학교::학종::학업우수': {
     university: '고려대학교',
@@ -83,6 +89,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '50 : 30 : 20',
+    approximatecut: 1.8,
   },
 
   '서강대학교::교과::지역균형': {
@@ -94,6 +101,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeNotes: '국수영탐(1) 중 3개 과목 각 3등급 이내, 한국사 4',
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 1.4,
   },
   '서강대학교::학종::일반 I': {
     university: '서강대학교',
@@ -106,6 +114,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '50 : 30 : 20',
+    approximatecut: 1.9,
   },
   '서강대학교::학종::일반 II': {
     university: '서강대학교',
@@ -118,6 +127,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '50 : 30 : 20',
+    approximatecut: 1.9,
   },
 
   '성균관대학교::교과::학교추천': {
@@ -129,7 +139,8 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeNotes:
       '탐구 2과목 평균, 일반 3합 7, <글로벌/자유전공, 반도체, 전자전기, 에너지, 소프트웨어> 등 3합 6, 의예 4합 5',
     notes: '',
-    documentEvaluationRatio: null,
+    documentEvaluationRatio: 20,
+    approximatecut: 1.6,
   },
   '성균관대학교::학종::융합인재': {
     university: '성균관대학교',
@@ -142,6 +153,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '40 : 40 : 20',
+    approximatecut: 1.9,
   },
   '성균관대학교::학종::탐구인재': {
     university: '성균관대학교',
@@ -154,6 +166,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '40 : 40 : 20',
+    approximatecut: 1.9,
   },
   '성균관대학교::학종::성균인재': {
     university: '성균관대학교',
@@ -166,6 +179,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3,
     interviewRatio: 30,
     evaluationRatio: '40 : 40 : 20',
+    approximatecut: 1.9,
   },
 
   '한양대학교::교과::추천형': {
@@ -175,8 +189,9 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: 3,
     minimumGradeRequiredSum: 7,
     minimumGradeNotes: null,
-    notes: '',
-    documentEvaluationRatio: null,
+    notes: '이과 강세, 펑크 잦음',
+    documentEvaluationRatio: 10,
+    approximatecut: 1.6,
   },
   '한양대학교::학종::추천형': {
     university: '한양대학교',
@@ -189,6 +204,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '자체 기준',
+    approximatecut: 1.9,
   },
   '한양대학교::학종::면접형': {
     university: '한양대학교',
@@ -201,6 +217,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 7,
     interviewRatio: 30,
     evaluationRatio: '자체 기준',
+    approximatecut: 1.9,
   },
   '한양대학교::학종::서류형': {
     university: '한양대학교',
@@ -213,6 +230,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '자체 기준',
+    approximatecut: 1.9,
   },
 
   '중앙대학교::교과::지역균형': {
@@ -225,6 +243,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
       '인문/자연 3합 7, 약학 4합 5, 한국사 4, 영어 2등급을 1등급으로 간주',
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 1.7,
   },
   '중앙대학교::학종::탐구형인재': {
     university: '중앙대학교',
@@ -237,6 +256,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3.5,
     interviewRatio: 30,
     evaluationRatio: '40 : 50 : 10',
+    approximatecut: 2.1,
   },
   '중앙대학교::학종::성장형인재': {
     university: '중앙대학교',
@@ -250,6 +270,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 5,
     interviewRatio: 30,
     evaluationRatio: '아직 미공개',
+    approximatecut: 2.1,
   },
   '중앙대학교::학종::융합형인재': {
     university: '중앙대학교',
@@ -262,6 +283,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '50 : 30 : 20',
+    approximatecut: 2.1,
   },
 
   '경희대학교::교과::지역균형': {
@@ -272,7 +294,8 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSum: 5,
     minimumGradeNotes: '탐구 2과목 평균, 의치한약 3합 4, 한국사 5',
     notes: '',
-    documentEvaluationRatio: null,
+    documentEvaluationRatio: 30,
+    approximatecut: 1.6,
   },
   '경희대학교::학종::네오르네상스': {
     university: '경희대학교',
@@ -286,6 +309,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3,
     interviewRatio: 30,
     evaluationRatio: '40 : 40 : 20',
+    approximatecut: 2.2,
   },
 
   '서울시립대학교::교과::지역균형선발': {
@@ -295,8 +319,9 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: 3,
     minimumGradeRequiredSum: 8,
     minimumGradeNotes: '한국사 4',
-    notes: '',
-    documentEvaluationRatio: null,
+    notes: '이과 강세',
+    documentEvaluationRatio: 20,
+    approximatecut: 1.9,
   },
   '서울시립대학교::학종::학생부종합전형I': {
     university: '서울시립대학교',
@@ -309,6 +334,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3,
     interviewRatio: 50,
     evaluationRatio: '35 : 40 : 25',
+    approximatecut: 2.4,
   },
   '서울시립대학교::학종::학생부종합전형II': {
     university: '서울시립대학교',
@@ -321,6 +347,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '30 : 50 : 20',
+    approximatecut: 2.3,
   },
 
   '건국대학교::학종::KU자기추천': {
@@ -334,6 +361,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3,
     interviewRatio: 30,
     evaluationRatio: '30 : 40 : 30',
+    approximatecut: 2.5,
   },
   '건국대학교::교과::KU지역균형': {
     university: '건국대학교',
@@ -343,7 +371,8 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSum: null,
     minimumGradeNotes: null,
     notes: '',
-    documentEvaluationRatio: null,
+    documentEvaluationRatio: 30,
+    approximatecut: 1.8,
   },
 
   '동국대학교::교과::학교장추천인재': {
@@ -353,8 +382,9 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: null,
     minimumGradeRequiredSum: null,
     minimumGradeNotes: null,
-    notes: '',
-    documentEvaluationRatio: null,
+    notes: '사실상 학업역량 많이 보는 학종, 70컷은 최저 값',
+    documentEvaluationRatio: 30,
+    approximatecut: 2.0,
   },
   '동국대학교::학종::DoDream': {
     university: '동국대학교',
@@ -363,10 +393,11 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: null,
     minimumGradeRequiredSum: null,
     minimumGradeNotes: null,
-    notes: '학과에 따라 1단계 2.5/3/3.5배수',
+    notes: '학과에 따라 1단계 2.5/3/3.5배수, 70컷은 최저 값',
     firstRoundMultiplier: 2.5,
     interviewRatio: 30,
     evaluationRatio: '30 : 50 : 20',
+    approximatecut: 2.6,
   },
 
   '홍익대학교::교과::학교장추천자': {
@@ -378,6 +409,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeNotes: '한국사 4',
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 1.9,
   },
   '홍익대학교::학종::학교생활우수자': {
     university: '홍익대학교',
@@ -390,6 +422,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '40 : 40 : 20',
+    approximatecut: 2.5,
   },
 
   '국민대학교::교과::교과우수자': {
@@ -401,6 +434,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeNotes: '자연계열 국수영과',
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 2.3,
   },
   '국민대학교::학종::국민프런티어': {
     university: '국민대학교',
@@ -409,10 +443,11 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: null,
     minimumGradeRequiredSum: null,
     minimumGradeNotes: null,
-    notes: '',
+    notes: '주요과목 성적 중요',
     firstRoundMultiplier: 3,
     interviewRatio: 30,
     evaluationRatio: '25 : 55 : 20',
+    approximatecut: 3.2,
   },
 
   '숭실대학교::교과::교과우수자': {
@@ -422,8 +457,9 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: 2,
     minimumGradeRequiredSum: 6,
     minimumGradeNotes: null,
-    notes: '',
+    notes: '주요과목 반영비가 높은 편',
     documentEvaluationRatio: null,
+    approximatecut: 2.8,
   },
   '숭실대학교::학종::SSU미래인재(서류형)': {
     university: '숭실대학교',
@@ -432,10 +468,11 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: null,
     minimumGradeRequiredSum: null,
     minimumGradeNotes: null,
-    notes: '',
+    notes: '신설',
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '20 : 50 : 30',
+    approximatecut: 2.9,
   },
   '숭실대학교::학종::SSU미래인재(면접형)': {
     university: '숭실대학교',
@@ -448,6 +485,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3,
     interviewRatio: 50,
     evaluationRatio: '20 : 50 : 30',
+    approximatecut: 3.3,
   },
 
   '세종대학교::교과::지역균형': {
@@ -459,6 +497,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeNotes: '자유전공학부 2합 5',
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 2.4,
   },
   '세종대학교::학종::세종인재(면접형)': {
     university: '세종대학교',
@@ -467,10 +506,11 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: null,
     minimumGradeRequiredSum: null,
     minimumGradeNotes: null,
-    notes: '',
+    notes: '생기부를 많이 보는 편',
     firstRoundMultiplier: 3,
     interviewRatio: 40,
     evaluationRatio: '25 : 65(45 + 창의 20) : 10',
+    approximatecut: 3.3,
   },
   '세종대학교::학종::세종인재(서류형)': {
     university: '세종대학교',
@@ -483,6 +523,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '45 : 45(25 + 창의 20) : 10',
+    approximatecut: 2.9,
   },
 
   '단국대학교::교과::지역균형선발': {
@@ -492,8 +533,9 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: 2,
     minimumGradeRequiredSum: 6,
     minimumGradeNotes: null,
-    notes: '',
+    notes: '선발인원이 적어 예측이 어려움',
     documentEvaluationRatio: null,
+    approximatecut: 2.4,
   },
   '단국대학교::학종::DKU인재(서류형)': {
     university: '단국대학교',
@@ -506,6 +548,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '45 : 35 : 20',
+    approximatecut: 2.9,
   },
   '단국대학교::학종::DKU인재(면접형)': {
     university: '단국대학교',
@@ -518,6 +561,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3,
     interviewRatio: 30,
     evaluationRatio: '35 : 45 : 20',
+    approximatecut: 3.2,
   },
 
   '인하대학교::교과::지역균형': {
@@ -527,9 +571,10 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: 2,
     minimumGradeRequiredSum: 6,
     minimumGradeNotes:
-      '인문 2합 6, 자연 2합 5, 의예 3합 4(과탐 2과목 평균, 절사)',
+      '인문 2합 6, 자연 2합 5, 의예 3합 4(과탐 2과목 평균, 절사), 이과 강세',
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 2.7,
   },
   '인하대학교::학종::인하미래인재(서류형)': {
     university: '인하대학교',
@@ -538,10 +583,11 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: null,
     minimumGradeRequiredSum: null,
     minimumGradeNotes: null,
-    notes: '',
+    notes: '이과 강세',
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '50 : 30 : 20',
+    approximatecut: 2.9,
   },
   '인하대학교::학종::인하미래인재(면접형)': {
     university: '인하대학교',
@@ -550,10 +596,11 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: null,
     minimumGradeRequiredSum: null,
     minimumGradeNotes: null,
-    notes: '의예과 1단계 3배수',
+    notes: '의예과 1단계 3배수, 이과 강세, 미적&물리 성적 중요',
     firstRoundMultiplier: 3.5,
     interviewRatio: 30,
     evaluationRatio: '30 : 50 : 20',
+    approximatecut: 3.2,
   },
 
   '아주대학교::교과::고교추천': {
@@ -563,8 +610,9 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: 2,
     minimumGradeRequiredSum: 5,
     minimumGradeNotes: '의학 4합 6(탐구 2과목 평균)',
-    notes: '',
+    notes: '이과 강세',
     documentEvaluationRatio: null,
+    approximatecut: 2.5,
   },
   '아주대학교::학종::첨단융합인재': {
     university: '아주대학교',
@@ -577,6 +625,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3,
     interviewRatio: 30,
     evaluationRatio: '40 : 45 : 15',
+    approximatecut: 2.6,
   },
   '아주대학교::학종::ACE': {
     university: '아주대학교',
@@ -585,10 +634,11 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: null,
     minimumGradeRequiredSum: null,
     minimumGradeNotes: '의학 4합 6, 약학 3합 5, 탐구 2과목 평균',
-    notes: '',
+    notes: '내신 영향력 높음',
     firstRoundMultiplier: 3,
     interviewRatio: 30,
     evaluationRatio: '37 : 35 : 28',
+    approximatecut: 2.8,
   },
 
   '광운대학교::교과::지역균형': {
@@ -600,6 +650,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeNotes: null,
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 2.5,
   },
   '광운대학교::학종::소프트웨어우수인재': {
     university: '광운대학교',
@@ -612,6 +663,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3.5,
     interviewRatio: 40,
     evaluationRatio: '25 : 50 : 25',
+    approximatecut: 3.6,
   },
   '광운대학교::학종::광운참빛인재전형I(면접형)': {
     university: '광운대학교',
@@ -624,6 +676,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 3.5,
     interviewRatio: 40,
     evaluationRatio: '25 : 50 : 25',
+    approximatecut: 3.4,
   },
   '광운대학교::학종::광운참빛인재전형II(서류형)': {
     university: '광운대학교',
@@ -636,6 +689,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '35 : 45 : 20',
+    approximatecut: 3.1,
   },
 
   '명지대학교::교과::학교장추천': {
@@ -647,6 +701,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeNotes: null,
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 2.7,
   },
   '명지대학교::교과::교과면접': {
     university: '명지대학교',
@@ -657,6 +712,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeNotes: null,
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 2.9,
   },
   '명지대학교::학종::명지인재면접': {
     university: '명지대학교',
@@ -669,6 +725,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: 4,
     interviewRatio: 30,
     evaluationRatio: '20 : 50 : 30',
+    approximatecut: 3.5,
   },
   '명지대학교::학종::명지인재서류': {
     university: '명지대학교',
@@ -681,6 +738,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '30 : 50 : 20',
+    approximatecut: 3.2,
   },
 
   '상명대학교::교과::고교추천': {
@@ -692,6 +750,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeNotes: null,
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 2.6,
   },
   '상명대학교::학종::상명인재': {
     university: '상명대학교',
@@ -704,6 +763,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '35 : 45 : 20',
+    approximatecut: 3.5,
   },
 
   '가톨릭대학교::교과::지역균형': {
@@ -716,6 +776,7 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
       '인문/자연 2합 7, 자유전공 2합 6, 의예 4합 5(과탐 2과목 절사, 한국사 4), 약학 3합 5(국수영과), 간호 3합 7',
     notes: '',
     documentEvaluationRatio: null,
+    approximatecut: 2.7,
   },
   '가톨릭대학교::학종::잠재능력우수자면접': {
     university: '가톨릭대학교',
@@ -724,10 +785,11 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: null,
     minimumGradeRequiredSum: null,
     minimumGradeNotes: null,
-    notes: '',
+    notes: '70컷은 최저 값',
     firstRoundMultiplier: 4,
     interviewRatio: 30,
     evaluationRatio: '40 : 35 : 25',
+    approximatecut: 3.7,
   },
   '가톨릭대학교::학종::잠재능력우수자서류': {
     university: '가톨릭대학교',
@@ -736,9 +798,10 @@ export const admissionMetaMap: Record<AdmissionMetaKey, AdmissionMeta> = {
     minimumGradeRequiredSubjects: null,
     minimumGradeRequiredSum: null,
     minimumGradeNotes: null,
-    notes: '',
+    notes: '70컷은 최저 값',
     firstRoundMultiplier: null,
     interviewRatio: null,
     evaluationRatio: '40 : 35 : 25',
+    approximatecut: 3.4,
   },
 };

@@ -27,6 +27,8 @@ type AdmissionOption = {
 type AdmissionOptionAccordionProps = {
   option: AdmissionOption;
   isSelectionFull: boolean;
+  referenceGrade: number | null;
+  showGradeCompareHighlight: boolean;
   selectedDepartmentIds: Set<string>;
   onSelectDepartment: (selected: SelectedDepartment) => void;
 };
@@ -97,9 +99,48 @@ function getMinimumDifficultyLevel(
   return MINIMUM_DIFFICULTY_LEVELS.includes(value) ? value : null;
 }
 
+function getGradeComparisonTone(params: {
+  referenceGrade: number | null;
+  showGradeCompareHighlight: boolean;
+  row: AdmissionResultRow;
+}) {
+  const { referenceGrade, row, showGradeCompareHighlight } = params;
+  if (!showGradeCompareHighlight || referenceGrade === null) {
+    return null;
+  }
+
+  const cutoff70_24 = row.resultsByYear[2024].cutoff70;
+  const cutoff70_25 = row.resultsByYear[2025].cutoff70;
+  if (cutoff70_24 === null || cutoff70_25 === null) {
+    return null;
+  }
+
+  const betterThan24 = referenceGrade <= cutoff70_24;
+  const betterThan25 = referenceGrade <= cutoff70_25;
+
+  if (betterThan24 && betterThan25) {
+    return 'green';
+  }
+  if (betterThan24 || betterThan25) {
+    return 'yellow';
+  }
+  return 'red';
+}
+
+function formatYearTriplet(params: {
+  y24: number | null;
+  y25: number | null;
+  y26: number | null;
+}) {
+  const { y24, y25, y26 } = params;
+  return `${formatValue(y24)} / ${formatValue(y25)} / ${formatValue(y26)}`;
+}
+
 export function AdmissionOptionAccordion({
   option,
   isSelectionFull,
+  referenceGrade,
+  showGradeCompareHighlight,
   selectedDepartmentIds,
   onSelectDepartment,
 }: AdmissionOptionAccordionProps) {
@@ -179,15 +220,9 @@ export function AdmissionOptionAccordion({
                   <th>학과</th>
                   <th>선택</th>
                   <th>27 모집</th>
-                  <th>24 인원</th>
-                  <th>24 컷50</th>
-                  <th>24 컷70</th>
-                  <th>25 인원</th>
-                  <th>25 컷50</th>
-                  <th>25 컷70</th>
-                  <th>26 인원</th>
-                  <th>26 컷50</th>
-                  <th>26 컷70</th>
+                  <th>인원 (24 / 25 / 26)</th>
+                  <th>50컷 (24 / 25 / 26)</th>
+                  <th>70컷 (24 / 25 / 26)</th>
                 </tr>
               </thead>
               <tbody>
@@ -195,11 +230,24 @@ export function AdmissionOptionAccordion({
                   const id = `${option.key}::${row.department}`;
                   const isSelected = selectedDepartmentIds.has(id);
                   const disableSelect = !isSelected && isSelectionFull;
+                  const tone = getGradeComparisonTone({
+                    referenceGrade,
+                    row,
+                    showGradeCompareHighlight,
+                  });
+                  const toneClass =
+                    tone === 'green'
+                      ? 'bg-emerald-100/70'
+                      : tone === 'yellow'
+                        ? 'bg-amber-100/70'
+                        : tone === 'red'
+                          ? 'bg-red-100/70'
+                          : '';
 
                   return (
                     <tr
                       key={`${id}-${index}`}
-                      className="[&>td]:border-b [&>td]:px-3 [&>td]:py-2"
+                      className={`${toneClass} [&>td]:border-b [&>td]:px-3 [&>td]:py-2`}
                     >
                       <td className="min-w-64">{row.department}</td>
                       <td>
@@ -222,15 +270,27 @@ export function AdmissionOptionAccordion({
                         </Button>
                       </td>
                       <td>{formatValue(row.capacity_27)}</td>
-                      <td>{formatValue(row.resultsByYear[2024].capacity)}</td>
-                      <td>{formatValue(row.resultsByYear[2024].cutoff50)}</td>
-                      <td>{formatValue(row.resultsByYear[2024].cutoff70)}</td>
-                      <td>{formatValue(row.resultsByYear[2025].capacity)}</td>
-                      <td>{formatValue(row.resultsByYear[2025].cutoff50)}</td>
-                      <td>{formatValue(row.resultsByYear[2025].cutoff70)}</td>
-                      <td>{formatValue(row.resultsByYear[2026].capacity)}</td>
-                      <td>{formatValue(row.resultsByYear[2026].cutoff50)}</td>
-                      <td>{formatValue(row.resultsByYear[2026].cutoff70)}</td>
+                      <td>
+                        {formatYearTriplet({
+                          y24: row.resultsByYear[2024].capacity,
+                          y25: row.resultsByYear[2025].capacity,
+                          y26: row.resultsByYear[2026].capacity,
+                        })}
+                      </td>
+                      <td>
+                        {formatYearTriplet({
+                          y24: row.resultsByYear[2024].cutoff50,
+                          y25: row.resultsByYear[2025].cutoff50,
+                          y26: row.resultsByYear[2026].cutoff50,
+                        })}
+                      </td>
+                      <td>
+                        {formatYearTriplet({
+                          y24: row.resultsByYear[2024].cutoff70,
+                          y25: row.resultsByYear[2025].cutoff70,
+                          y26: row.resultsByYear[2026].cutoff70,
+                        })}
+                      </td>
                     </tr>
                   );
                 })}

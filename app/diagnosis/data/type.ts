@@ -23,6 +23,7 @@ export type AdmissionBaseMeta = {
   university: string;
   admissionCategory: AdmissionCategory;
   admissionName: string;
+  approximatecut: number;
   minimumGradeRequiredSubjects: number | null;
   minimumGradeRequiredSum: number | null;
   minimumGradeNotes: string | null;
