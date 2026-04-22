@@ -25,6 +25,14 @@ export default function Home() {
             </div>
           </Button>
         </Link> */}
+        <Link href="/diagnosis" className="w-full">
+          <Button variant="outline" className="w-full" size="lg">
+            <div className="flex items-center justify-center w-full gap-1">
+              <ClipboardIcon />
+              <p>진학전략</p>
+            </div>
+          </Button>
+        </Link>
       </div>
     </div>
   );

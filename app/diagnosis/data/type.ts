@@ -4,6 +4,8 @@ export type AdmissionYearValue = {
   cutoff70: number | null;
 };
 
+export type AdmissionCategory = '교과' | '학종';
+
 export type AdmissionResultRow = {
   university: string;
   admissionCategory: string;
@@ -19,7 +21,7 @@ export type AdmissionResultRow = {
 
 export type AdmissionBaseMeta = {
   university: string;
-  admissionCategory: '교과' | '학종';
+  admissionCategory: AdmissionCategory;
   admissionName: string;
   minimumGradeRequiredSubjects: number | null;
   minimumGradeRequiredSum: number | null;
@@ -43,4 +45,9 @@ export type AdmissionMeta =
   | AdmissionSchoolRecordMeta
   | AdmissionComprehensiveMeta;
 
-export type AdmissionMetaKey = `${string}::${'교과' | '학종'}::${string}`;
+export type AdmissionMetaKey = `${string}::${AdmissionCategory}::${string}`;
+
+export type AdmissionResultSourceMap = Record<
+  AdmissionMetaKey,
+  readonly AdmissionResultRow[]
+>;
