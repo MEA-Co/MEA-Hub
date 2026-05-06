@@ -8,7 +8,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 42, cutoff50: 2.68, cutoff70: 2.83 },
       2025: { capacity: 42, cutoff50: 2.87, cutoff70: 3.11 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 42, cutoff50: 2.88, cutoff70: 7.24 },
     },
   },
   {
@@ -20,7 +20,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 23, cutoff50: 2.73, cutoff70: 3.0 },
       2025: { capacity: 23, cutoff50: 2.91, cutoff70: 3.23 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 23, cutoff50: 2.88, cutoff70: 4.69 },
     },
   },
   {
@@ -32,7 +32,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 20, cutoff50: 2.25, cutoff70: 2.46 },
       2025: { capacity: 17, cutoff50: 2.44, cutoff70: 2.47 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 17, cutoff50: 2.26, cutoff70: 3.58 },
     },
   },
   {
@@ -44,7 +44,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 13, cutoff50: 2.55, cutoff70: 2.75 },
       2025: { capacity: 13, cutoff50: 2.8, cutoff70: 2.97 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 2.89, cutoff70: 6.68 },
     },
   },
   {
@@ -56,7 +56,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 13, cutoff50: 2.98, cutoff70: 3.04 },
       2025: { capacity: 13, cutoff50: 3.05, cutoff70: 3.27 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 3.61, cutoff70: 4.99 },
     },
   },
   {
@@ -68,7 +68,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 13, cutoff50: 3.1, cutoff70: 3.2 },
       2025: { capacity: 13, cutoff50: 3.67, cutoff70: 3.89 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 3.24, cutoff70: 4.72 },
     },
   },
   {
@@ -80,7 +80,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 23, cutoff50: 2.86, cutoff70: 3.14 },
       2025: { capacity: 23, cutoff50: 3.17, cutoff70: 3.31 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 23, cutoff50: 2.69, cutoff70: 3.34 },
     },
   },
   {
@@ -92,7 +92,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 30, cutoff50: 2.27, cutoff70: 2.42 },
       2025: { capacity: 32, cutoff50: 2.57, cutoff70: 2.72 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 32, cutoff50: 2.57, cutoff70: 4.19 },
     },
   },
   {
@@ -104,7 +104,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 20, cutoff50: 2.32, cutoff70: 2.5 },
       2025: { capacity: 16, cutoff50: 2.42, cutoff70: 2.53 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 15, cutoff50: 2.54, cutoff70: 6.42 },
     },
   },
   {
@@ -116,7 +116,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 15, cutoff50: 2.59, cutoff70: 2.67 },
       2025: { capacity: 15, cutoff50: 2.9, cutoff70: 2.97 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 15, cutoff50: 2.49, cutoff70: 2.84 },
     },
   },
   {
@@ -128,7 +128,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 44, cutoff50: 2.84, cutoff70: 2.99 },
       2025: { capacity: 42, cutoff50: 3.06, cutoff70: 3.3 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 41, cutoff50: 2.98, cutoff70: 5.57 },
     },
   },
   {
@@ -140,7 +140,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 2.83, cutoff70: 2.91 },
       2025: { capacity: 10, cutoff50: 2.76, cutoff70: 2.94 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: 2.84, cutoff70: 4.19 },
     },
   },
   {
@@ -152,7 +152,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 57, cutoff50: 2.57, cutoff70: 2.66 },
       2025: { capacity: 50, cutoff50: 2.76, cutoff70: 3.23 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 50, cutoff50: 2.94, cutoff70: 6.75 },
     },
   },
   {
@@ -164,7 +164,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 25, cutoff50: 4.32, cutoff70: 5.05 },
       2025: { capacity: 25, cutoff50: 3.04, cutoff70: 3.81 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 25, cutoff50: 3.79, cutoff70: 5.63 },
     },
   },
   {
@@ -176,7 +176,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 15, cutoff50: 3.01, cutoff70: 3.34 },
       2025: { capacity: 15, cutoff50: 2.98, cutoff70: 3.26 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 15, cutoff50: 3.25, cutoff70: 5.35 },
     },
   },
   {
@@ -188,7 +188,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 3.1, cutoff70: 3.18 },
       2025: { capacity: 10, cutoff50: 2.97, cutoff70: 3.15 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: 3.11, cutoff70: 4.82 },
     },
   },
   {
@@ -200,7 +200,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 25, cutoff50: 3.09, cutoff70: 3.41 },
       2025: { capacity: 25, cutoff50: 3.41, cutoff70: 3.77 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 25, cutoff50: 3.38, cutoff70: 5.25 },
     },
   },
   {
@@ -212,7 +212,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 13, cutoff50: 3.9, cutoff70: 4.21 },
       2025: { capacity: 13, cutoff50: 4.14, cutoff70: 5.26 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 13, cutoff50: 4.38, cutoff70: 6.33 },
     },
   },
   {
@@ -224,7 +224,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 14, cutoff50: 3.0, cutoff70: 3.06 },
       2025: { capacity: 14, cutoff50: 3.38, cutoff70: 3.45 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 14, cutoff50: 2.95, cutoff70: 3.29 },
     },
   },
   {
@@ -236,7 +236,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 14, cutoff50: 2.66, cutoff70: 2.78 },
       2025: { capacity: 9, cutoff50: 2.84, cutoff70: 2.97 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 9, cutoff50: 2.72, cutoff70: 4.34 },
     },
   },
   {
@@ -248,7 +248,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 2.64, cutoff70: 2.71 },
       2025: { capacity: 10, cutoff50: 3.03, cutoff70: 3.29 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: 2.9, cutoff70: 3.44 },
     },
   },
   {
@@ -260,7 +260,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 16, cutoff50: 2.31, cutoff70: 2.51 },
       2025: { capacity: 14, cutoff50: 2.62, cutoff70: 2.69 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 14, cutoff50: 2.48, cutoff70: 4.44 },
     },
   },
   {
@@ -272,7 +272,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 31, cutoff50: 2.82, cutoff70: 3.06 },
       2025: { capacity: 36, cutoff50: 3.1, cutoff70: 3.25 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 36, cutoff50: 3.24, cutoff70: 6.11 },
     },
   },
   {
@@ -284,7 +284,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 20, cutoff50: 1.53, cutoff70: 2.02 },
       2025: { capacity: 40, cutoff50: 1.24, cutoff70: 1.34 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 17, cutoff50: 1.42, cutoff70: 2.15 },
     },
   },
   {
@@ -296,7 +296,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 25, cutoff50: 1.99, cutoff70: 2.11 },
       2025: { capacity: 25, cutoff50: 2.26, cutoff70: 2.28 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 25, cutoff50: 2.2, cutoff70: 3.97 },
     },
   },
   {
@@ -308,7 +308,7 @@ export const ajouAceRows = [
     resultsByYear: {
       2024: { capacity: 15, cutoff50: 1.43, cutoff70: 1.7 },
       2025: { capacity: 15, cutoff50: 1.45, cutoff70: 1.51 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 15, cutoff50: 1.57, cutoff70: 2.73 },
     },
   },
 ] as const;

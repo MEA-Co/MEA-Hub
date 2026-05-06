@@ -8,7 +8,7 @@ export const kwangwoonSoftwareTalentRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 3.48, cutoff70: 3.76 },
       2025: { capacity: 10, cutoff50: 3.12, cutoff70: 3.51 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 22, cutoff50: null, cutoff70: 2.75 },
     },
   },
   {
@@ -20,7 +20,7 @@ export const kwangwoonSoftwareTalentRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 3.8, cutoff70: 4.0 },
       2025: { capacity: 10, cutoff50: 3.0, cutoff70: 3.19 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 22, cutoff50: null, cutoff70: 3.22 },
     },
   },
   {
@@ -32,7 +32,7 @@ export const kwangwoonSoftwareTalentRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 3.92, cutoff70: 5.21 },
       2025: { capacity: 10, cutoff50: 3.53, cutoff70: 4.5 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 22, cutoff50: null, cutoff70: 3.16 },
     },
   },
   {
@@ -44,7 +44,7 @@ export const kwangwoonSoftwareTalentRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 3.31, cutoff70: 3.5 },
       2025: { capacity: 5, cutoff50: 3.62, cutoff70: 4.19 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 16, cutoff50: null, cutoff70: 3.6 },
     },
   },
 ] as const;

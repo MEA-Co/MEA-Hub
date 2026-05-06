@@ -8,7 +8,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 9, cutoff50: 3.02, cutoff70: 3.19 },
       2025: { capacity: 5, cutoff50: 3.09, cutoff70: 3.09 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 3.59, cutoff70: 5.4 },
     },
   },
   {
@@ -20,7 +20,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 3.49, cutoff70: 3.54 },
       2025: { capacity: 2, cutoff50: 3.35, cutoff70: 3.35 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 2, cutoff50: 3.28, cutoff70: 3.3 },
     },
   },
   {
@@ -32,7 +32,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 8, cutoff50: 2.87, cutoff70: 3.01 },
       2025: { capacity: 4, cutoff50: 3.49, cutoff70: 3.49 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 4, cutoff50: 3.27, cutoff70: 3.37 },
     },
   },
   {
@@ -44,7 +44,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 2.98, cutoff70: 3.16 },
       2025: { capacity: 3, cutoff50: 2.7, cutoff70: 2.82 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 3, cutoff50: 3.04, cutoff70: 3.22 },
     },
   },
   {
@@ -56,7 +56,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 3.34, cutoff70: 3.47 },
       2025: { capacity: 6, cutoff50: 3.29, cutoff70: 3.31 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 6, cutoff50: 3.22, cutoff70: 3.39 },
     },
   },
   {
@@ -68,7 +68,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 11, cutoff50: 3.21, cutoff70: 3.28 },
       2025: { capacity: 7, cutoff50: 3.19, cutoff70: 3.28 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: 3.29, cutoff70: 3.61 },
     },
   },
   {
@@ -80,7 +80,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 3.12, cutoff70: 3.17 },
       2025: { capacity: 3, cutoff50: 3.16, cutoff70: 3.47 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 3, cutoff50: 3.27, cutoff70: 3.84 },
     },
   },
   {
@@ -92,7 +92,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 11, cutoff50: 3.36, cutoff70: 3.46 },
       2025: { capacity: 8, cutoff50: 2.89, cutoff70: 2.95 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 8, cutoff50: 3.25, cutoff70: 3.4 },
     },
   },
   {
@@ -104,7 +104,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 13, cutoff50: 2.99, cutoff70: 3.15 },
       2025: { capacity: 11, cutoff50: 3.01, cutoff70: 3.17 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 11, cutoff50: 3.1, cutoff70: 3.96 },
     },
   },
   {
@@ -116,7 +116,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 14, cutoff50: 3.54, cutoff70: 3.66 },
       2025: { capacity: 10, cutoff50: 3.25, cutoff70: 3.48 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: 3.36, cutoff70: 5.46 },
     },
   },
   {
@@ -128,7 +128,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 11, cutoff50: 2.59, cutoff70: 2.74 },
       2025: { capacity: 5, cutoff50: 2.57, cutoff70: 2.83 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 2.7, cutoff70: 3.03 },
     },
   },
   {
@@ -140,7 +140,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 2.86, cutoff70: 2.91 },
       2025: { capacity: 5, cutoff50: 2.78, cutoff70: 2.81 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 2.71, cutoff70: 2.87 },
     },
   },
   {
@@ -152,7 +152,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 2.7, cutoff70: 2.8 },
       2025: { capacity: 3, cutoff50: 2.68, cutoff70: 2.77 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 3, cutoff50: 2.97, cutoff70: 3.12 },
     },
   },
   {
@@ -164,7 +164,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 9, cutoff50: 2.68, cutoff70: 2.79 },
       2025: { capacity: 4, cutoff50: 2.93, cutoff70: 2.93 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 4, cutoff50: 2.75, cutoff70: 3.0 },
     },
   },
   {
@@ -176,7 +176,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 14, cutoff50: 3.26, cutoff70: 3.27 },
       2025: { capacity: 9, cutoff50: 3.26, cutoff70: 3.29 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 9, cutoff50: 3.32, cutoff70: 3.89 },
     },
   },
   {
@@ -188,7 +188,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 3.28, cutoff70: 3.44 },
       2025: { capacity: 6, cutoff50: 3.36, cutoff70: 3.43 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 6, cutoff50: 3.32, cutoff70: 3.63 },
     },
   },
   {
@@ -200,7 +200,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 13, cutoff50: 2.81, cutoff70: 3.11 },
       2025: { capacity: 17, cutoff50: 3.04, cutoff70: 3.15 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 15, cutoff50: 2.94, cutoff70: 3.52 },
     },
   },
   {
@@ -212,7 +212,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 8, cutoff50: 3.17, cutoff70: 3.37 },
       2025: { capacity: 4, cutoff50: 2.81, cutoff70: 2.81 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 4, cutoff50: 3.05, cutoff70: 3.15 },
     },
   },
   {
@@ -224,7 +224,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 8, cutoff50: 3.29, cutoff70: 3.43 },
       2025: { capacity: 5, cutoff50: 3.01, cutoff70: 3.06 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 4, cutoff50: 3.5, cutoff70: 3.57 },
     },
   },
   {
@@ -236,7 +236,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 2.97, cutoff70: 3.19 },
       2025: { capacity: 5, cutoff50: 2.55, cutoff70: 2.73 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 3.02, cutoff70: 3.41 },
     },
   },
   {
@@ -248,7 +248,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 3.14, cutoff70: 3.37 },
       2025: { capacity: 5, cutoff50: 3.02, cutoff70: 3.3 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 3.05, cutoff70: 3.38 },
     },
   },
   {
@@ -260,7 +260,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 8, cutoff50: 2.94, cutoff70: 3.04 },
       2025: { capacity: 4, cutoff50: 2.81, cutoff70: 2.81 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 4, cutoff50: 2.83, cutoff70: 3.26 },
     },
   },
   {
@@ -272,7 +272,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 2.36, cutoff70: 3.03 },
       2025: { capacity: 3, cutoff50: 3.27, cutoff70: 3.27 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 3, cutoff50: 2.46, cutoff70: 3.14 },
     },
   },
   {
@@ -284,7 +284,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 3.36, cutoff70: 3.38 },
       2025: { capacity: 3, cutoff50: 2.82, cutoff70: 3.04 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 3, cutoff50: 3.21, cutoff70: 4.0 },
     },
   },
   {
@@ -296,7 +296,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 2.13, cutoff70: 2.56 },
       2025: { capacity: 2, cutoff50: 1.98, cutoff70: 1.98 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 2, cutoff50: 1.76, cutoff70: 1.86 },
     },
   },
   {
@@ -308,7 +308,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 3.39, cutoff70: 3.4 },
       2025: { capacity: 7, cutoff50: 3.13, cutoff70: 3.29 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 9, cutoff50: 3.62, cutoff70: 4.06 },
     },
   },
   {
@@ -320,7 +320,7 @@ export const sangmyungTalentRows = [
     resultsByYear: {
       2024: { capacity: 8, cutoff50: 3.84, cutoff70: 3.9 },
       2025: { capacity: 9, cutoff50: 3.36, cutoff70: 3.73 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: 3.62, cutoff70: 4.83 },
     },
   },
 ] as const;

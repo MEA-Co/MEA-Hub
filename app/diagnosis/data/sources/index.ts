@@ -19,12 +19,20 @@ import { dkuTalentInterviewRows as DankookDkuIRows } from './dankook/dku-i';
 import { dkuRegionalBalanceRows as DankookLocalRows } from './dankook/local';
 import { dguDoDreamRows as DonggukDodreamRows } from './dongguk/dodream';
 import { dguPrincipalRecommendationRows as DonggukRecommendRows } from './dongguk/recommend';
+import { gachonKyogwaExcellenceRows as GachonExcellenceRows } from './gachon/excellence';
+import { gachonWindmillRows as GachonWindRows } from './gachon/wind';
+import { hansungKyogwaExcellenceRows as HansungExcellenceRows } from './hansung/excellence';
+import { hansungKyogwaRegionalBalanceRows as HansungLocalRows } from './hansung/local';
+import { hansungComprehensiveTalentRows as HansungTalentRows } from './hansung/talent';
 import { hanyangDocumentRows as HanyangDocumentRows } from './hanyang/document';
 import { hanyangInterviewRows as HanyangInterviewRows } from './hanyang/interview';
 import { hanyangGeneralRecommendRows as HanyangRecommendRRows } from './hanyang/recommend-r';
 import { hanyangSchoolRecommendRows as HanyangRecommendSRows } from './hanyang/recommend-s';
 import { hongikSchoolLifeExcellenceRows as HongikExcellenceRows } from './hongik/excellence';
 import { hongikPrincipalRecommendationRows as HongikRecommendRows } from './hongik/recommend';
+import { incheonKyogwaSungjukRows as IncheonExcellenceRows } from './incheon/excellence';
+import { incheonRegionalBalanceRows as IncheonLocalRows } from './incheon/local';
+import { incheonKyogwaSelfRecommendRows as IncheonSelfRows } from './incheon/self';
 import { inhaFutureTalentDocumentRows as InhaFutureDRows } from './inha/future-d';
 import { inhaFutureTalentInterviewRows as InhaFutureIRows } from './inha/future-i';
 import { inhaRegionalBalanceRows as InhaLocalRows } from './inha/local';
@@ -39,12 +47,17 @@ import { kwangwoonChamBitDocumentRows as KwangwoonDocumentRows } from './kwangwo
 import { kwangwoonChamBitInterviewRows as KwangwoonInterviewRows } from './kwangwoon/interview';
 import { kwangwoonRegionalBalanceRows as KwangwoonLocalRows } from './kwangwoon/local';
 import { kwangwoonSoftwareTalentRows as KwangwoonSoftwareRows } from './kwangwoon/software';
+import { kyonggiKyogwaExcellenceRows as KyonggiExcellenceRows } from './kyonggi/excellence';
+import { kyonggiKguComprehensiveRows as KyonggiKguRows } from './kyonggi/KGU';
+import { kyonggiPrincipalRecommendRows as KyonggiRecommendRows } from './kyonggi/recommend';
 import { khuRegionalBalanceRows as KyungheeLocalRows } from './kyunghee/local';
 import { khuNeoRenaissanceRows as KyungheeRenaissanceRows } from './kyunghee/renaissance';
 import { myongjiTalentDocumentRows as MyongjiDocumentRows } from './myongji/document';
 import { myongjiKyogwaInterviewRows as MyongjiGginterviewRows } from './myongji/gginterview';
 import { myongjiTalentInterviewRows as MyongjiInterviewRows } from './myongji/interview';
 import { myongjiSchoolRecommendationRows as MyongjiRecommendRows } from './myongji/recommend';
+import { sahmyookPrincipalRecommendRows as SamyookRecommendRows } from './samyook/recommend';
+import { sahmyookSeumTalentRows as SamyookTalentRows } from './samyook/talent';
 import { sangmyungHighSchoolRecommendationRows as SangmyeongRecommendRows } from './sangmyeong/recommend';
 import { sangmyungTalentRows as SangmyeongTalentRows } from './sangmyeong/talent';
 import { sejongRegionalBalanceRows as SejongLocalRows } from './sejong/local';
@@ -89,12 +102,20 @@ export const admissionResultSourceMap: AdmissionResultSourceMap = {
   '단국대학교::교과::지역균형선발': DankookLocalRows,
   '동국대학교::학종::Do Dream': DonggukDodreamRows,
   '동국대학교::교과::학교장추천인재': DonggukRecommendRows,
+  '가천대학교::교과::학생부우수자': GachonExcellenceRows,
+  '가천대학교::학종::가천바람개비': GachonWindRows,
+  '한성대학교::교과::교과우수': HansungExcellenceRows,
+  '한성대학교::교과::지역균형': HansungLocalRows,
+  '한성대학교::학종::한성인재': HansungTalentRows,
   '한양대학교::학종::서류형': HanyangDocumentRows,
   '한양대학교::학종::면접형': HanyangInterviewRows,
   '한양대학교::학종::추천형': HanyangRecommendRRows,
   '한양대학교::교과::추천형': HanyangRecommendSRows,
   '홍익대학교::학종::학교생활우수자': HongikExcellenceRows,
   '홍익대학교::교과::학교장추천자': HongikRecommendRows,
+  '인천대학교::교과::교과성적우수자': IncheonExcellenceRows,
+  '인천대학교::교과::지역균형': IncheonLocalRows,
+  '인천대학교::학종::자기추천': IncheonSelfRows,
   '인하대학교::학종::인하미래인재(서류형)': InhaFutureDRows,
   '인하대학교::학종::인하미래인재(면접형)': InhaFutureIRows,
   '인하대학교::교과::지역균형': InhaLocalRows,
@@ -109,6 +130,9 @@ export const admissionResultSourceMap: AdmissionResultSourceMap = {
   '광운대학교::학종::광운참빛인재전형I(면접형)': KwangwoonInterviewRows,
   '광운대학교::교과::지역균형': KwangwoonLocalRows,
   '광운대학교::학종::소프트웨어우수인재': KwangwoonSoftwareRows,
+  '경기대학교::학종::KGU학생부종합': KyonggiKguRows,
+  '경기대학교::교과::교과성적우수자': KyonggiExcellenceRows,
+  '경기대학교::교과::학교장추천': KyonggiRecommendRows,
   '경희대학교::교과::지역균형': KyungheeLocalRows,
   '경희대학교::학종::네오르네상스': KyungheeRenaissanceRows,
   '명지대학교::학종::명지인재서류': MyongjiDocumentRows,
@@ -117,6 +141,8 @@ export const admissionResultSourceMap: AdmissionResultSourceMap = {
   '명지대학교::교과::학교장추천': MyongjiRecommendRows,
   '상명대학교::교과::고교추천': SangmyeongRecommendRows,
   '상명대학교::학종::상명인재': SangmyeongTalentRows,
+  '삼육대학교::교과::학교장추천': SamyookRecommendRows,
+  '삼육대학교::학종::세움인재': SamyookTalentRows,
   '세종대학교::교과::지역균형': SejongLocalRows,
   '세종대학교::학종::세종인재(서류형)': SejongTalentDRows,
   '세종대학교::학종::세종인재(면접형)': SejongTalentIRows,

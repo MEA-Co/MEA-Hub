@@ -8,7 +8,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 14, cutoff50: 2.08, cutoff70: 2.09 },
       2025: { capacity: 23, cutoff50: 2.23, cutoff70: 2.38 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 22, cutoff50: null, cutoff70: 2.06 },
     },
   },
   {
@@ -20,7 +20,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 16, cutoff50: 2.17, cutoff70: 2.24 },
       2025: { capacity: 20, cutoff50: 2.0, cutoff70: 2.28 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 19, cutoff50: null, cutoff70: 2.22 },
     },
   },
   {
@@ -32,7 +32,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: null, cutoff50: null, cutoff70: null },
       2025: { capacity: 5, cutoff50: 1.92, cutoff70: 1.92 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: null, cutoff70: 1.96 },
     },
   },
   {
@@ -44,7 +44,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 2.0, cutoff70: 1.97 },
       2025: { capacity: 15, cutoff50: 1.95, cutoff70: 1.99 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 15, cutoff50: null, cutoff70: 2.05 },
     },
   },
   {
@@ -56,7 +56,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 2.0, cutoff70: 1.89 },
       2025: { capacity: 6, cutoff50: 2.18, cutoff70: 2.26 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 6, cutoff50: null, cutoff70: 2.11 },
     },
   },
   {
@@ -68,7 +68,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 2.25, cutoff70: 2.14 },
       2025: { capacity: 5, cutoff50: 2.04, cutoff70: 2.21 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: null, cutoff70: 2.14 },
     },
   },
   {
@@ -80,7 +80,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 2.56, cutoff70: 2.59 },
       2025: { capacity: 7, cutoff50: 2.39, cutoff70: 2.44 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: null, cutoff70: 2.38 },
     },
   },
   {
@@ -92,7 +92,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 2.25, cutoff70: 2.38 },
       2025: { capacity: 7, cutoff50: 2.28, cutoff70: 2.34 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: null, cutoff70: 2.36 },
     },
   },
   {
@@ -104,7 +104,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 11, cutoff50: 2.45, cutoff70: 2.36 },
       2025: { capacity: 11, cutoff50: 2.24, cutoff70: 2.27 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: null, cutoff70: 2.48 },
     },
   },
   {
@@ -116,7 +116,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 30, cutoff50: 1.92, cutoff70: 1.99 },
       2025: { capacity: 30, cutoff50: 1.97, cutoff70: 1.96 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 30, cutoff50: null, cutoff70: 1.88 },
     },
   },
   {
@@ -128,7 +128,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 1.95, cutoff70: 1.96 },
       2025: { capacity: 5, cutoff50: 1.62, cutoff70: 1.92 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: null, cutoff70: 1.92 },
     },
   },
   {
@@ -140,7 +140,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 2.14, cutoff70: 2.51 },
       2025: { capacity: 22, cutoff50: 2.24, cutoff70: 2.14 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 22, cutoff50: null, cutoff70: 2.2 },
     },
   },
   {
@@ -152,7 +152,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 11, cutoff50: 2.08, cutoff70: 2.09 },
       2025: { capacity: 11, cutoff50: 1.89, cutoff70: 2.01 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 11, cutoff50: null, cutoff70: 2.5 },
     },
   },
   {
@@ -164,7 +164,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 2.24, cutoff70: 2.13 },
       2025: { capacity: 8, cutoff50: 2.55, cutoff70: 2.6 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: null, cutoff70: 2.22 },
     },
   },
   {
@@ -176,7 +176,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 18, cutoff50: 2.21, cutoff70: 2.45 },
       2025: { capacity: 18, cutoff50: 2.33, cutoff70: 2.44 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 18, cutoff50: null, cutoff70: 2.32 },
     },
   },
   {
@@ -188,7 +188,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 2.12, cutoff70: 2.27 },
       2025: { capacity: 3, cutoff50: 2.63, cutoff70: 2.6 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 3, cutoff50: null, cutoff70: 2.25 },
     },
   },
   {
@@ -200,7 +200,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 15, cutoff50: 2.24, cutoff70: 2.13 },
       2025: { capacity: 18, cutoff50: 2.01, cutoff70: 2.14 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 18, cutoff50: null, cutoff70: 2.06 },
     },
   },
   {
@@ -212,7 +212,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 16, cutoff50: 2.35, cutoff70: 2.27 },
       2025: { capacity: 20, cutoff50: 2.35, cutoff70: 2.44 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 19, cutoff50: null, cutoff70: 2.38 },
     },
   },
   {
@@ -224,7 +224,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 9, cutoff50: 2.07, cutoff70: 2.3 },
       2025: { capacity: 9, cutoff50: 2.71, cutoff70: 2.88 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 9, cutoff50: null, cutoff70: 2.46 },
     },
   },
   {
@@ -236,7 +236,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 2.21, cutoff70: 2.33 },
       2025: { capacity: 5, cutoff50: 2.41, cutoff70: 2.51 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: null, cutoff70: 2.37 },
     },
   },
   {
@@ -248,7 +248,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 2.56, cutoff70: 2.89 },
       2025: { capacity: 3, cutoff50: 2.1, cutoff70: 2.66 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 3, cutoff50: null, cutoff70: 2.7 },
     },
   },
   {
@@ -260,7 +260,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 2.46, cutoff70: 2.5 },
       2025: { capacity: 9, cutoff50: 2.44, cutoff70: 2.62 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 9, cutoff50: null, cutoff70: 2.53 },
     },
   },
   {
@@ -272,7 +272,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 2.72, cutoff70: 2.86 },
       2025: { capacity: 4, cutoff50: 2.68, cutoff70: 2.68 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 4, cutoff50: null, cutoff70: 2.48 },
     },
   },
   {
@@ -284,7 +284,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 2.8, cutoff70: 2.85 },
       2025: { capacity: 3, cutoff50: 2.64, cutoff70: 2.7 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 3, cutoff50: null, cutoff70: 3.0 },
     },
   },
   {
@@ -296,7 +296,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: null, cutoff50: null, cutoff70: null },
       2025: { capacity: 5, cutoff50: 2.41, cutoff70: 2.4 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: null, cutoff70: 2.33 },
     },
   },
   {
@@ -308,7 +308,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 2.71, cutoff70: 2.87 },
       2025: { capacity: 10, cutoff50: 2.25, cutoff70: 2.45 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 9, cutoff50: null, cutoff70: 2.59 },
     },
   },
   {
@@ -320,7 +320,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 9, cutoff50: 2.33, cutoff70: 2.64 },
       2025: { capacity: 8, cutoff50: 1.96, cutoff70: 2.2 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: null, cutoff70: 1.92 },
     },
   },
   {
@@ -332,7 +332,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 40, cutoff50: 2.44, cutoff70: 2.54 },
       2025: { capacity: 24, cutoff50: 2.64, cutoff70: 2.76 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 24, cutoff50: null, cutoff70: 2.59 },
     },
   },
   {
@@ -344,7 +344,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: null, cutoff50: null, cutoff70: null },
       2025: { capacity: null, cutoff50: null, cutoff70: null },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 3, cutoff50: null, cutoff70: 1.0 },
     },
   },
   {
@@ -356,7 +356,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 1.52, cutoff70: 1.56 },
       2025: { capacity: 7, cutoff50: 1.77, cutoff70: 1.77 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: null, cutoff70: 1.75 },
     },
   },
   {
@@ -368,7 +368,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: null, cutoff50: null, cutoff70: null },
       2025: { capacity: 15, cutoff50: 1.86, cutoff70: 1.85 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 22, cutoff50: null, cutoff70: 1.98 },
     },
   },
   {
@@ -380,7 +380,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: null, cutoff50: null, cutoff70: null },
       2025: { capacity: 10, cutoff50: 2.22, cutoff70: 2.25 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: null, cutoff70: 1.93 },
     },
   },
   {
@@ -392,7 +392,7 @@ export const ajouHighSchoolRecommendationRows = [
     resultsByYear: {
       2024: { capacity: null, cutoff50: null, cutoff70: null },
       2025: { capacity: 5, cutoff50: 2.25, cutoff70: 2.55 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: null, cutoff70: 2.3 },
     },
   },
 ] as const;

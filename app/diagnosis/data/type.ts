@@ -33,6 +33,7 @@ export type AdmissionBaseMeta = {
 export type AdmissionSchoolRecordMeta = AdmissionBaseMeta & {
   admissionCategory: '교과';
   documentEvaluationRatio: 10 | 20 | 30 | null;
+  usesMajorExplorationSubjectsByTrack?: boolean;
 };
 
 export type AdmissionComprehensiveMeta = AdmissionBaseMeta & {

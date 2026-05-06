@@ -27,6 +27,7 @@ type AdmissionOption = {
 type AdmissionOptionAccordionProps = {
   option: AdmissionOption;
   isSelectionFull: boolean;
+  approximateCutWindow: { min: number; max: number } | null;
   referenceGrade: number | null;
   showGradeCompareHighlight: boolean;
   selectedDepartmentIds: Set<string>;
@@ -139,18 +140,34 @@ function formatYearTriplet(params: {
 export function AdmissionOptionAccordion({
   option,
   isSelectionFull,
+  approximateCutWindow,
   referenceGrade,
   showGradeCompareHighlight,
   selectedDepartmentIds,
   onSelectDepartment,
 }: AdmissionOptionAccordionProps) {
+  const approximateCut = option.meta?.approximatecut ?? null;
+  const inApproximateWindow =
+    approximateCutWindow !== null &&
+    approximateCut !== null &&
+    approximateCut >= approximateCutWindow.min &&
+    approximateCut <= approximateCutWindow.max;
+
   return (
-    <AccordionItem value={option.key}>
+    <AccordionItem
+      value={option.key}
+      className={inApproximateWindow ? 'bg-emerald-50/40' : undefined}
+    >
       <AccordionTrigger className="px-4 hover:no-underline">
         <div className="flex w-full flex-col items-start gap-1 text-left sm:flex-row sm:items-center sm:justify-between">
-          <div className="font-medium">
+          <div className="flex items-center gap-2 font-medium">
             {option.university} · {option.admissionCategory} ·{' '}
             {option.admissionName}
+            {inApproximateWindow && (
+              <span className="rounded-sm border border-emerald-300 bg-emerald-100 px-1.5 py-0.5 text-[11px] font-semibold text-emerald-700">
+                근접
+              </span>
+            )}
           </div>
           <div className="text-xs text-muted-foreground">
             학과 {option.rows.length}개
@@ -178,12 +195,24 @@ export function AdmissionOptionAccordion({
               </p>
 
               {option.meta?.admissionCategory === '교과' ? (
-                <p>
-                  <span className="text-muted-foreground">서류평가 비율:</span>{' '}
-                  {option.meta.documentEvaluationRatio === null
-                    ? '-'
-                    : `${option.meta.documentEvaluationRatio}%`}
-                </p>
+                <>
+                  <p>
+                    <span className="text-muted-foreground">
+                      서류평가 비율:
+                    </span>{' '}
+                    {option.meta.documentEvaluationRatio === null
+                      ? '-'
+                      : `${option.meta.documentEvaluationRatio}%`}
+                  </p>
+                  {option.meta.usesMajorExplorationSubjectsByTrack && (
+                    <p>
+                      <span className="text-muted-foreground">
+                        탐구 반영:
+                      </span>{' '}
+                      계열별 주요 교과 반영
+                    </p>
+                  )}
+                </>
               ) : (
                 <>
                   <p>
@@ -214,9 +243,17 @@ export function AdmissionOptionAccordion({
           </section>
 
           <div className="overflow-x-auto rounded-md border">
-            <table className="min-w-[1080px] text-sm">
+            <table className="w-full table-fixed text-[14px] leading-5">
+              <colgroup>
+                <col className="w-[30%]" />
+                <col className="w-[8%]" />
+                <col className="w-[8%]" />
+                <col className="w-[18%]" />
+                <col className="w-[18%]" />
+                <col className="w-[18%]" />
+              </colgroup>
               <thead className="bg-muted/40">
-                <tr className="[&>th]:border-b [&>th]:px-3 [&>th]:py-2 [&>th]:text-left [&>th]:font-semibold">
+                <tr className="[&>th]:border-b [&>th]:px-2 [&>th]:py-2 [&>th]:text-left [&>th]:font-semibold">
                   <th>학과</th>
                   <th>선택</th>
                   <th>27 모집</th>
@@ -247,12 +284,13 @@ export function AdmissionOptionAccordion({
                   return (
                     <tr
                       key={`${id}-${index}`}
-                      className={`${toneClass} [&>td]:border-b [&>td]:px-3 [&>td]:py-2`}
+                      className={`${toneClass} [&>td]:border-b [&>td]:px-2 [&>td]:py-2`}
                     >
-                      <td className="min-w-64">{row.department}</td>
+                      <td className="break-words">{row.department}</td>
                       <td>
                         <Button
                           size="sm"
+                          className="h-8 px-2 text-xs"
                           variant={isSelected ? 'secondary' : 'outline'}
                           disabled={disableSelect}
                           onClick={() =>

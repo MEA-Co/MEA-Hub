@@ -8,7 +8,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 20, cutoff50: 1.5, cutoff70: 1.52 },
       2025: { capacity: 20, cutoff50: 1.65, cutoff70: 1.69 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 20, cutoff50: 1.5, cutoff70: 1.51 },
     },
   },
   {
@@ -20,7 +20,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 17, cutoff50: 1.66, cutoff70: 1.7 },
       2025: { capacity: 16, cutoff50: 1.62, cutoff70: 1.7 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 20, cutoff50: 1.62, cutoff70: 1.67 },
     },
   },
   {
@@ -32,7 +32,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 17, cutoff50: 1.44, cutoff70: 1.46 },
       2025: { capacity: 17, cutoff50: 1.52, cutoff70: 1.71 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 20, cutoff50: 1.54, cutoff70: 1.58 },
     },
   },
   {
@@ -44,7 +44,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 1.38, cutoff70: 1.43 },
       2025: { capacity: 10, cutoff50: 1.41, cutoff70: 1.48 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.54, cutoff70: 1.74 },
     },
   },
   {
@@ -56,7 +56,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 1.44, cutoff70: 1.57 },
       2025: { capacity: 10, cutoff50: 1.61, cutoff70: 1.81 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: 1.6, cutoff70: 1.62 },
     },
   },
   {
@@ -68,7 +68,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 1.5, cutoff70: 1.74 },
       2025: { capacity: 10, cutoff50: 1.67, cutoff70: 1.71 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: 1.6, cutoff70: 1.62 },
     },
   },
   {
@@ -80,7 +80,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 12, cutoff50: 1.57, cutoff70: 1.62 },
       2025: { capacity: 10, cutoff50: 1.51, cutoff70: 1.54 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: 1.54, cutoff70: 1.61 },
     },
   },
   {
@@ -92,7 +92,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 1.36, cutoff70: 1.41 },
       2025: { capacity: 5, cutoff50: 1.82, cutoff70: 1.97 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 1.73, cutoff70: 1.76 },
     },
   },
   {
@@ -104,7 +104,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 1.88, cutoff70: 1.88 },
       2025: { capacity: 5, cutoff50: 1.82, cutoff70: 1.82 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 1.71, cutoff70: 1.72 },
     },
   },
   {
@@ -116,7 +116,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 1.62, cutoff70: 1.85 },
       2025: { capacity: 10, cutoff50: 1.77, cutoff70: 1.84 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.73, cutoff70: 1.76 },
     },
   },
   {
@@ -128,7 +128,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 12, cutoff50: 1.8, cutoff70: 1.8 },
       2025: { capacity: 5, cutoff50: 1.82, cutoff70: 1.97 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.69, cutoff70: 1.77 },
     },
   },
   {
@@ -140,7 +140,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 20, cutoff50: 1.92, cutoff70: 1.97 },
       2025: { capacity: 20, cutoff50: 1.87, cutoff70: 1.89 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.77, cutoff70: 1.78 },
     },
   },
   {
@@ -152,7 +152,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 12, cutoff50: 1.8, cutoff70: 1.88 },
       2025: { capacity: 12, cutoff50: 1.66, cutoff70: 1.79 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.85, cutoff70: 1.9 },
     },
   },
   {
@@ -164,7 +164,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 12, cutoff50: 1.78, cutoff70: 1.82 },
       2025: { capacity: 12, cutoff50: 1.8, cutoff70: 1.81 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.74, cutoff70: 1.75 },
     },
   },
   {
@@ -176,7 +176,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 20, cutoff50: 1.57, cutoff70: 1.64 },
       2025: { capacity: 20, cutoff50: 1.58, cutoff70: 1.66 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.67, cutoff70: 1.73 },
     },
   },
   {
@@ -188,7 +188,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 20, cutoff50: 1.86, cutoff70: 1.91 },
       2025: { capacity: 20, cutoff50: 1.7, cutoff70: 1.79 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.7, cutoff70: 1.74 },
     },
   },
   {
@@ -200,7 +200,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 12, cutoff50: 1.87, cutoff70: 2.63 },
       2025: { capacity: 12, cutoff50: 1.73, cutoff70: 1.77 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.59, cutoff70: 1.62 },
     },
   },
   {
@@ -212,7 +212,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 20, cutoff50: 1.77, cutoff70: 1.85 },
       2025: { capacity: 20, cutoff50: 1.75, cutoff70: 1.82 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.73, cutoff70: 1.75 },
     },
   },
   {
@@ -224,7 +224,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 12, cutoff50: 1.61, cutoff70: 1.71 },
       2025: { capacity: 12, cutoff50: 1.58, cutoff70: 1.65 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: 1.56, cutoff70: 1.58 },
     },
   },
   {
@@ -236,7 +236,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 1.59, cutoff70: 1.64 },
       2025: { capacity: 5, cutoff50: 1.66, cutoff70: 1.86 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 1.71, cutoff70: 1.72 },
     },
   },
   {
@@ -248,7 +248,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 1.72, cutoff70: 1.81 },
       2025: { capacity: 5, cutoff50: 1.78, cutoff70: 1.84 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 1.74, cutoff70: 1.75 },
     },
   },
   {
@@ -260,7 +260,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 20, cutoff50: 1.5, cutoff70: 1.52 },
       2025: { capacity: 16, cutoff50: 1.47, cutoff70: 1.5 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 15, cutoff50: 1.38, cutoff70: 1.44 },
     },
   },
   {
@@ -272,7 +272,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 1.46, cutoff70: 1.46 },
       2025: { capacity: 10, cutoff50: 1.52, cutoff70: 1.52 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: 1.38, cutoff70: 1.39 },
     },
   },
   {
@@ -284,7 +284,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 40, cutoff50: 1.54, cutoff70: 1.56 },
       2025: { capacity: 38, cutoff50: 1.49, cutoff70: 1.52 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 40, cutoff50: 1.47, cutoff70: 1.48 },
     },
   },
   {
@@ -296,7 +296,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 1.52, cutoff70: 1.56 },
       2025: { capacity: 10, cutoff50: 1.51, cutoff70: 1.55 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: 1.55, cutoff70: 1.6 },
     },
   },
   {
@@ -306,9 +306,9 @@ export const skkuSchoolRecommendRows = [
     department: '글로벌바이오메디컬공학전공',
     capacity_27: 6,
     resultsByYear: {
-      2024: { capacity: 10, cutoff50: 1.51, cutoff70: 1.55 }, // 글로벌융합학부 데이터 준용
+      2024: { capacity: 10, cutoff50: 1.51, cutoff70: 1.55 },
       2025: { capacity: 10, cutoff50: 1.48, cutoff70: 1.51 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 1.47, cutoff70: 1.5 },
     },
   },
   {
@@ -320,7 +320,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 1.69, cutoff70: 1.8 },
       2025: { capacity: 6, cutoff50: 1.71, cutoff70: 1.72 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: 1.49, cutoff70: 1.52 },
     },
   },
   {
@@ -332,7 +332,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 1.86, cutoff70: 1.89 },
       2025: { capacity: 6, cutoff50: 1.66, cutoff70: 1.82 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: 1.58, cutoff70: 1.58 },
     },
   },
   {
@@ -344,7 +344,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 16, cutoff50: 1.74, cutoff70: 1.76 },
       2025: { capacity: 18, cutoff50: 1.78, cutoff70: 1.79 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 17, cutoff50: 1.71, cutoff70: 1.74 },
     },
   },
   {
@@ -368,7 +368,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 1.32, cutoff70: 1.44 },
       2025: { capacity: 5, cutoff50: 1.65, cutoff70: 1.74 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 1.67, cutoff70: 1.72 },
     },
   },
   {
@@ -380,7 +380,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 5, cutoff50: 1.67, cutoff70: 1.68 },
       2025: { capacity: 5, cutoff50: 1.61, cutoff70: 1.65 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 5, cutoff50: 1.61, cutoff70: 1.63 },
     },
   },
   {
@@ -392,7 +392,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 1.48, cutoff70: 1.5 },
       2025: { capacity: 7, cutoff50: 1.45, cutoff70: 1.54 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: 1.41, cutoff70: 1.44 },
     },
   },
   {
@@ -404,7 +404,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 1.55, cutoff70: 1.61 },
       2025: { capacity: 7, cutoff50: 1.58, cutoff70: 1.6 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: 1.62, cutoff70: 1.72 },
     },
   },
   {
@@ -416,7 +416,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 1.61, cutoff70: 1.65 },
       2025: { capacity: 7, cutoff50: 1.71, cutoff70: 1.72 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: 1.65, cutoff70: 1.66 },
     },
   },
   {
@@ -428,7 +428,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 1.57, cutoff70: 1.59 },
       2025: { capacity: 7, cutoff50: 1.5, cutoff70: 1.51 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 7, cutoff50: 1.45, cutoff70: 1.49 },
     },
   },
   {
@@ -440,7 +440,7 @@ export const skkuSchoolRecommendRows = [
     resultsByYear: {
       2024: { capacity: null, cutoff50: null, cutoff70: null },
       2025: { capacity: null, cutoff50: null, cutoff70: null },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 15, cutoff50: 1.63, cutoff70: 1.69 },
     },
   },
 ] as const;

@@ -8,7 +8,7 @@ export const ajouAdvancedConvergenceRows = [
     resultsByYear: {
       2024: { capacity: 17, cutoff50: 2.35, cutoff70: 2.5 },
       2025: { capacity: 36, cutoff50: 2.44, cutoff70: 2.55 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 36, cutoff50: 2.47, cutoff70: 3.86 },
     },
   },
   {
@@ -20,7 +20,7 @@ export const ajouAdvancedConvergenceRows = [
     resultsByYear: {
       2024: { capacity: null, cutoff50: null, cutoff70: null },
       2025: { capacity: 17, cutoff50: 2.4, cutoff70: 2.45 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 17, cutoff50: 2.5, cutoff70: 5.94 },
     },
   },
   {
@@ -32,7 +32,7 @@ export const ajouAdvancedConvergenceRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 2.28, cutoff70: 2.42 },
       2025: { capacity: 10, cutoff50: 2.23, cutoff70: 2.24 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 24, cutoff50: 2.4, cutoff70: 2.89 },
     },
   },
   {
@@ -44,7 +44,7 @@ export const ajouAdvancedConvergenceRows = [
     resultsByYear: {
       2024: { capacity: 15, cutoff50: 2.88, cutoff70: 2.98 },
       2025: { capacity: 42, cutoff50: 2.77, cutoff70: 2.86 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 42, cutoff50: 2.88, cutoff70: 4.02 },
     },
   },
   {
@@ -56,7 +56,7 @@ export const ajouAdvancedConvergenceRows = [
     resultsByYear: {
       2024: { capacity: 30, cutoff50: 2.59, cutoff70: 2.99 },
       2025: { capacity: 30, cutoff50: 2.49, cutoff70: 2.79 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 30, cutoff50: 2.65, cutoff70: 4.63 },
     },
   },
   {
@@ -68,7 +68,7 @@ export const ajouAdvancedConvergenceRows = [
     resultsByYear: {
       2024: { capacity: 20, cutoff50: 2.88, cutoff70: 3.33 },
       2025: { capacity: 17, cutoff50: 3.18, cutoff70: 3.37 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 17, cutoff50: 3.12, cutoff70: 4.69 },
     },
   },
   {
@@ -80,7 +80,7 @@ export const ajouAdvancedConvergenceRows = [
     resultsByYear: {
       2024: { capacity: null, cutoff50: null, cutoff70: null },
       2025: { capacity: 32, cutoff50: 2.21, cutoff70: 2.32 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 42, cutoff50: 2.47, cutoff70: 6.31 },
     },
   },
 ] as const;

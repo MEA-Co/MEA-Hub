@@ -8,7 +8,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 29, cutoff50: 2.96, cutoff70: 3.67 },
       2025: { capacity: 30, cutoff50: 2.53, cutoff70: 2.97 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 24, cutoff50: null, cutoff70: 3.17 },
     },
   },
   {
@@ -20,7 +20,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 17, cutoff50: 3.07, cutoff70: 3.63 },
       2025: { capacity: 9, cutoff50: 2.79, cutoff70: 3.26 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 16, cutoff50: null, cutoff70: 2.95 },
     },
   },
   {
@@ -32,7 +32,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 14, cutoff50: 3.04, cutoff70: 3.91 },
       2025: { capacity: 7, cutoff50: 2.92, cutoff70: 3.26 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: null, cutoff70: 2.63 },
     },
   },
   {
@@ -44,7 +44,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 15, cutoff50: 3.01, cutoff70: 3.56 },
       2025: { capacity: 8, cutoff50: 2.62, cutoff70: 2.95 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: null, cutoff70: 3.3 },
     },
   },
   {
@@ -56,7 +56,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 15, cutoff50: 2.99, cutoff70: 3.39 },
       2025: { capacity: 9, cutoff50: 2.67, cutoff70: 2.78 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 14, cutoff50: null, cutoff70: 3.11 },
     },
   },
   {
@@ -68,7 +68,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 13, cutoff50: 3.02, cutoff70: 3.83 },
       2025: { capacity: 12, cutoff50: 2.72, cutoff70: 3.41 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: null, cutoff70: 3.11 },
     },
   },
   {
@@ -80,7 +80,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 3.16, cutoff70: 3.52 },
       2025: { capacity: 11, cutoff50: 2.8, cutoff70: 3.34 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 6, cutoff50: null, cutoff70: 3.09 },
     },
   },
   {
@@ -92,7 +92,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 3.59, cutoff70: 3.89 },
       2025: { capacity: 8, cutoff50: 2.94, cutoff70: 3.87 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 6, cutoff50: null, cutoff70: 3.92 },
     },
   },
   {
@@ -104,7 +104,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 15, cutoff50: 2.68, cutoff70: 3.25 },
       2025: { capacity: 18, cutoff50: 2.65, cutoff70: 3.64 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: null, cutoff70: 2.7 },
     },
   },
   {
@@ -116,7 +116,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 3.17, cutoff70: 3.45 },
       2025: { capacity: 4, cutoff50: 2.87, cutoff70: 3.15 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 6, cutoff50: null, cutoff70: 2.61 },
     },
   },
   {
@@ -128,7 +128,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 9, cutoff50: 3.26, cutoff70: 3.63 },
       2025: { capacity: 6, cutoff50: 2.84, cutoff70: 3.61 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 8, cutoff50: null, cutoff70: 2.96 },
     },
   },
   {
@@ -140,7 +140,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 10, cutoff50: 3.34, cutoff70: 5.96 },
       2025: { capacity: 9, cutoff50: 2.98, cutoff70: 3.39 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 8, cutoff50: null, cutoff70: 2.94 },
     },
   },
   {
@@ -152,7 +152,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 11, cutoff50: 2.88, cutoff70: 3.3 },
       2025: { capacity: 7, cutoff50: 2.69, cutoff70: 3.0 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: null, cutoff70: 3.16 },
     },
   },
   {
@@ -164,7 +164,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 3.23, cutoff70: 5.23 },
       2025: { capacity: 11, cutoff50: 2.84, cutoff70: 3.5 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 6, cutoff50: null, cutoff70: 3.83 },
     },
   },
   {
@@ -176,7 +176,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 7, cutoff50: 3.17, cutoff70: 3.49 },
       2025: { capacity: 14, cutoff50: 3.03, cutoff70: 4.66 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 6, cutoff50: null, cutoff70: 3.08 },
     },
   },
   {
@@ -188,7 +188,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 14, cutoff50: 2.84, cutoff70: 3.23 },
       2025: { capacity: 3, cutoff50: 2.96, cutoff70: 3.6 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 12, cutoff50: null, cutoff70: 3.27 },
     },
   },
   {
@@ -200,7 +200,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 8, cutoff50: 3.42, cutoff70: 4.5 },
       2025: { capacity: 1, cutoff50: 2.71, cutoff70: 2.86 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 8, cutoff50: null, cutoff70: 3.33 },
     },
   },
   {
@@ -212,7 +212,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 11, cutoff50: 3.01, cutoff70: 4.51 },
       2025: { capacity: 4, cutoff50: 3.09, cutoff70: 5.52 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: null, cutoff70: 5.26 },
     },
   },
   {
@@ -224,7 +224,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 9, cutoff50: 3.16, cutoff70: 3.64 },
       2025: { capacity: 13, cutoff50: 2.78, cutoff70: 3.01 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 8, cutoff50: null, cutoff70: 3.01 },
     },
   },
   {
@@ -236,7 +236,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 19, cutoff50: 3.16, cutoff70: 4.83 },
       2025: { capacity: 11, cutoff50: 3.02, cutoff70: 4.07 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 16, cutoff50: null, cutoff70: 2.86 },
     },
   },
   {
@@ -248,7 +248,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 6, cutoff50: 3.07, cutoff70: 4.36 },
       2025: { capacity: 3, cutoff50: 2.99, cutoff70: 3.63 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 6, cutoff50: null, cutoff70: 5.91 },
     },
   },
   {
@@ -260,7 +260,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 25, cutoff50: 3.03, cutoff70: 5.19 },
       2025: { capacity: 14, cutoff50: 3.05, cutoff70: 4.05 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 24, cutoff50: null, cutoff70: 3.69 },
     },
   },
   {
@@ -272,7 +272,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: null, cutoff50: null, cutoff70: null },
       2025: { capacity: 5, cutoff50: 3.07, cutoff70: 3.33 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: null, cutoff70: 3.27 },
     },
   },
   {
@@ -284,7 +284,7 @@ export const kwangwoonChamBitInterviewRows = [
     resultsByYear: {
       2024: { capacity: 11, cutoff50: 2.97, cutoff70: 4.36 },
       2025: { capacity: 9, cutoff50: 2.93, cutoff70: 3.33 },
-      2026: { capacity: null, cutoff50: null, cutoff70: null },
+      2026: { capacity: 10, cutoff50: null, cutoff70: 2.82 },
     },
   },
 ] as const;
