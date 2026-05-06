@@ -1,0 +1,86 @@
+export const ajouAdvancedConvergenceRows = [
+  {
+    university: '아주대학교',
+    admissionCategory: '학종',
+    admissionName: '첨단융합인재',
+    department: '첨단신소재공학과',
+    capacity_27: 36,
+    resultsByYear: {
+      2024: { capacity: 17, cutoff50: 2.35, cutoff70: 2.5 },
+      2025: { capacity: 36, cutoff50: 2.44, cutoff70: 2.55 },
+      2026: { capacity: 36, cutoff50: 2.47, cutoff70: 3.86 },
+    },
+  },
+  {
+    university: '아주대학교',
+    admissionCategory: '학종',
+    admissionName: '첨단융합인재',
+    department: '응용화학과',
+    capacity_27: 17,
+    resultsByYear: {
+      2024: { capacity: null, cutoff50: null, cutoff70: null },
+      2025: { capacity: 17, cutoff50: 2.4, cutoff70: 2.45 },
+      2026: { capacity: 17, cutoff50: 2.5, cutoff70: 5.94 },
+    },
+  },
+  {
+    university: '아주대학교',
+    admissionCategory: '학종',
+    admissionName: '첨단융합인재',
+    department: '지능형반도체공학과',
+    capacity_27: 10,
+    resultsByYear: {
+      2024: { capacity: 10, cutoff50: 2.28, cutoff70: 2.42 },
+      2025: { capacity: 10, cutoff50: 2.23, cutoff70: 2.24 },
+      2026: { capacity: 24, cutoff50: 2.4, cutoff70: 2.89 },
+    },
+  },
+  {
+    university: '아주대학교',
+    admissionCategory: '학종',
+    admissionName: '첨단융합인재',
+    department: '미래모빌리티공학과',
+    capacity_27: 42,
+    resultsByYear: {
+      2024: { capacity: 15, cutoff50: 2.88, cutoff70: 2.98 },
+      2025: { capacity: 42, cutoff50: 2.77, cutoff70: 2.86 },
+      2026: { capacity: 42, cutoff50: 2.88, cutoff70: 4.02 },
+    },
+  },
+  {
+    university: '아주대학교',
+    admissionCategory: '학종',
+    admissionName: '첨단융합인재',
+    department: '소프트웨어학과',
+    capacity_27: 30,
+    resultsByYear: {
+      2024: { capacity: 30, cutoff50: 2.59, cutoff70: 2.99 },
+      2025: { capacity: 30, cutoff50: 2.49, cutoff70: 2.79 },
+      2026: { capacity: 30, cutoff50: 2.65, cutoff70: 4.63 },
+    },
+  },
+  {
+    university: '아주대학교',
+    admissionCategory: '학종',
+    admissionName: '첨단융합인재',
+    department: '금융공학과',
+    capacity_27: 17,
+    resultsByYear: {
+      2024: { capacity: 20, cutoff50: 2.88, cutoff70: 3.33 },
+      2025: { capacity: 17, cutoff50: 3.18, cutoff70: 3.37 },
+      2026: { capacity: 17, cutoff50: 3.12, cutoff70: 4.69 },
+    },
+  },
+  {
+    university: '아주대학교',
+    admissionCategory: '학종',
+    admissionName: '첨단융합인재',
+    department: '첨단바이오융합대학',
+    capacity_27: 32,
+    resultsByYear: {
+      2024: { capacity: null, cutoff50: null, cutoff70: null },
+      2025: { capacity: 32, cutoff50: 2.21, cutoff70: 2.32 },
+      2026: { capacity: 42, cutoff50: 2.47, cutoff70: 6.31 },
+    },
+  },
+] as const;
