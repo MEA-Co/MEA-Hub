@@ -1,4 +1,4 @@
-import { ClipboardIcon } from 'lucide-react';
+import { ClipboardIcon, PaintbrushIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -30,6 +30,14 @@ export default function Home() {
             <div className="flex items-center justify-center w-full gap-1">
               <ClipboardIcon />
               <p>진학전략</p>
+            </div>
+          </Button>
+        </Link>
+        <Link href="/topics" className="w-full">
+          <Button variant="outline" className="w-full" size="lg">
+            <div className="flex items-center justify-center w-full gap-1">
+              <PaintbrushIcon />
+              <p>주제 추천</p>
             </div>
           </Button>
         </Link>
