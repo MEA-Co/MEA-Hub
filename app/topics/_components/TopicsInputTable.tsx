@@ -196,13 +196,12 @@ export default function TopicsInputTable() {
   }
 
   return (
-    <Card className="max-w-[52rem]">
+    <Card className="w-full">
       <CardHeader className="gap-2 px-4 pb-0 sm:px-6">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div className="space-y-1.5">
             <CardTitle className="text-xl md:text-2xl">재료함</CardTitle>
           </div>
-
           <div className="flex items-center gap-2 text-xs text-muted-foreground md:text-sm">
             <SaveIcon className="size-3.5 md:size-4" />
             <span>
@@ -212,9 +211,9 @@ export default function TopicsInputTable() {
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4 px-4 pt-4 sm:px-6">
+      <CardContent>
         <div className="overflow-hidden rounded-xl border border-border/70">
-          <Table className="mx-auto w-[clamp(22.5rem,92vw,48rem)] min-w-[22.5rem] max-w-[48rem] table-fixed border-collapse">
+          <Table className="w-full">
             <colgroup>
               <col className="w-[24%] md:w-[21%]" />
               <col className="w-[28%] md:w-[24%]" />
