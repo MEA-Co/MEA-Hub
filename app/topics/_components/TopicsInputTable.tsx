@@ -119,24 +119,16 @@ function WorksheetTextarea({
   value,
   onChange,
   placeholder,
-  className,
 }: {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  className?: string;
 }) {
   return (
     <Textarea
       value={value}
       onChange={(event) => onChange(event.currentTarget.value)}
       placeholder={placeholder}
-      className={[
-        'resize-y border-0 bg-transparent px-0 py-0 text-sm leading-6 shadow-none focus-visible:ring-0 md:text-base md:leading-7',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
     />
   );
 }
@@ -204,7 +196,7 @@ export default function TopicsInputTable() {
   }
 
   return (
-    <Card>
+    <Card className="max-w-[52rem]">
       <CardHeader className="gap-2 px-4 pb-0 sm:px-6">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div className="space-y-1.5">
@@ -222,7 +214,7 @@ export default function TopicsInputTable() {
 
       <CardContent className="space-y-4 px-4 pt-4 sm:px-6">
         <div className="overflow-hidden rounded-xl border border-border/70">
-          <Table className="mx-auto w-[clamp(22.5rem,92vw,48rem)] min-w-[22.5rem] table-fixed border-collapse lg:w-[64rem]">
+          <Table className="mx-auto w-[clamp(22.5rem,92vw,48rem)] min-w-[22.5rem] max-w-[48rem] table-fixed border-collapse">
             <colgroup>
               <col className="w-[24%] md:w-[21%]" />
               <col className="w-[28%] md:w-[24%]" />
@@ -254,7 +246,6 @@ export default function TopicsInputTable() {
                       onChange={(event) =>
                         updateField(field.id, event.currentTarget.value)
                       }
-                      className="h-10 border-0 bg-transparent px-0 text-sm shadow-none focus-visible:ring-0 md:h-12 md:text-base"
                     />
                   </TableCell>
                 </TableRow>
@@ -274,7 +265,6 @@ export default function TopicsInputTable() {
                       onChange={(value) =>
                         updateField('existingKeywords', value)
                       }
-                      className="min-h-[140px]"
                     />
                   </div>
                 </TableCell>
@@ -295,7 +285,6 @@ export default function TopicsInputTable() {
                       value={fields.newKeywords}
                       onChange={(value) => updateField('newKeywords', value)}
                       placeholder="예: 인간-컴퓨터 상호작용"
-                      className="min-h-[140px]"
                     />
                   </div>
                 </TableCell>
@@ -312,7 +301,6 @@ export default function TopicsInputTable() {
                   <WorksheetTextarea
                     value={fields.majorValues}
                     onChange={(value) => updateField('majorValues', value)}
-                    className="min-h-[96px] md:min-h-[120px]"
                   />
                 </TableCell>
               </TableRow>
@@ -337,7 +325,6 @@ export default function TopicsInputTable() {
                       onChange={(value) =>
                         updateField('academicCompetency', value)
                       }
-                      className="min-h-[120px] md:min-h-[160px]"
                     />
                   </div>
                 </TableCell>
@@ -354,7 +341,6 @@ export default function TopicsInputTable() {
                       onChange={(value) =>
                         updateField('differentiatedCompetency', value)
                       }
-                      className="min-h-[120px] md:min-h-[160px]"
                     />
                   </div>
                 </TableCell>
