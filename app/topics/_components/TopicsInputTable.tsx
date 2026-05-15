@@ -4,40 +4,25 @@ import { RotateCcwIcon, SaveIcon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 
-const STORAGE_KEY = 'mea-hub-topics-notes';
-
-const FORM_FIELDS = [
-  'firstMajor',
-  'secondMajor',
-  'thirdMajor',
-  'existingKeywords',
-  'newKeywords',
-  'majorValues',
-  'academicCompetency',
-  'differentiatedCompetency',
-] as const;
-
-type TopicFieldId = (typeof FORM_FIELDS)[number];
-type TopicFormState = Record<TopicFieldId, string>;
-
-type StoredTopicsPayload = {
-  fields?: Record<string, unknown>;
-  updatedAt?: string;
-};
+import {
+  TOPIC_WORKSHEET_STORAGE_KEY,
+  createEmptyTopicWorksheet,
+  normalizeTopicWorksheet,
+  type StoredTopicWorksheetPayload,
+  type TopicWorksheetFieldId,
+  type TopicWorksheetState,
+} from '../_lib/topicWorksheet';
 
 type RankField = {
-  id: Extract<TopicFieldId, 'firstMajor' | 'secondMajor' | 'thirdMajor'>;
+  id: Extract<
+    TopicWorksheetFieldId,
+    'firstMajor' | 'secondMajor' | 'thirdMajor'
+  >;
   label: string;
 };
 
@@ -55,52 +40,6 @@ const RANK_FIELDS: RankField[] = [
     label: '3순위 전공',
   },
 ];
-
-const EMPTY_FORM: TopicFormState = {
-  firstMajor: '',
-  secondMajor: '',
-  thirdMajor: '',
-  existingKeywords: '',
-  newKeywords: '',
-  majorValues: '',
-  academicCompetency: '',
-  differentiatedCompetency: '',
-};
-
-function createEmptyForm(): TopicFormState {
-  return { ...EMPTY_FORM };
-}
-
-function normalizeFields(
-  value: Record<string, unknown> | undefined,
-): TopicFormState {
-  if (!value) {
-    return createEmptyForm();
-  }
-
-  const normalized = FORM_FIELDS.reduce<TopicFormState>((acc, fieldId) => {
-    const fieldValue = value[fieldId];
-    acc[fieldId] = typeof fieldValue === 'string' ? fieldValue : '';
-    return acc;
-  }, createEmptyForm());
-
-  if (!normalized.firstMajor && typeof value.careerGoal === 'string') {
-    normalized.firstMajor = value.careerGoal;
-  }
-
-  if (!normalized.majorValues && typeof value.majorValues === 'string') {
-    normalized.majorValues = value.majorValues;
-  }
-
-  if (
-    !normalized.academicCompetency &&
-    typeof value.fitCompetency === 'string'
-  ) {
-    normalized.academicCompetency = value.fitCompetency;
-  }
-
-  return normalized;
-}
 
 function SideLabel({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
@@ -134,17 +73,19 @@ function WorksheetTextarea({
 }
 
 export default function TopicsInputTable() {
-  const [fields, setFields] = useState<TopicFormState>(createEmptyForm);
+  const [fields, setFields] = useState<TopicWorksheetState>(
+    createEmptyTopicWorksheet,
+  );
   const [hasLoaded, setHasLoaded] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
 
   useEffect(() => {
     try {
-      const saved = window.localStorage.getItem(STORAGE_KEY);
+      const saved = window.localStorage.getItem(TOPIC_WORKSHEET_STORAGE_KEY);
 
       if (saved) {
-        const parsed = JSON.parse(saved) as StoredTopicsPayload;
-        setFields(normalizeFields(parsed.fields));
+        const parsed = JSON.parse(saved) as StoredTopicWorksheetPayload;
+        setFields(normalizeTopicWorksheet(parsed.fields));
         setLastSavedAt(
           typeof parsed.updatedAt === 'string' ? parsed.updatedAt : null,
         );
@@ -162,13 +103,16 @@ export default function TopicsInputTable() {
     }
 
     const updatedAt = new Date().toISOString();
-    const payload: StoredTopicsPayload = {
+    const payload: StoredTopicWorksheetPayload = {
       fields,
       updatedAt,
     };
 
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      window.localStorage.setItem(
+        TOPIC_WORKSHEET_STORAGE_KEY,
+        JSON.stringify(payload),
+      );
       setLastSavedAt(updatedAt);
     } catch (error) {
       console.error('Failed to save topic notes to localStorage.', error);
@@ -183,7 +127,7 @@ export default function TopicsInputTable() {
     return `마지막 저장: ${new Date(lastSavedAt).toLocaleString('ko-KR')}`;
   }, [lastSavedAt]);
 
-  function updateField(fieldId: TopicFieldId, value: string) {
+  function updateField(fieldId: TopicWorksheetFieldId, value: string) {
     setFields((current) => ({
       ...current,
       [fieldId]: value,
@@ -191,7 +135,7 @@ export default function TopicsInputTable() {
   }
 
   function resetFields() {
-    setFields(createEmptyForm());
+    setFields(createEmptyTopicWorksheet());
     setLastSavedAt(null);
   }
 
@@ -348,7 +292,7 @@ export default function TopicsInputTable() {
           </Table>
         </div>
 
-        <div className="flex flex-col gap-3 rounded-xl bg-muted/40 p-3 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between md:p-4 md:text-sm">
+        <div className="mt-4 flex flex-col gap-3 rounded-xl bg-muted/40 p-3 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between md:p-4 md:text-sm">
           <p>같은 브라우저에서 다시 열면 자동으로 이어서 작성할 수 있어요.</p>
           <Button
             type="button"
