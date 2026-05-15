@@ -75,7 +75,9 @@ function createEmptyForm(): TopicFormState {
   return { ...EMPTY_FORM };
 }
 
-function normalizeFields(value: Record<string, unknown> | undefined): TopicFormState {
+function normalizeFields(
+  value: Record<string, unknown> | undefined,
+): TopicFormState {
   if (!value) {
     return createEmptyForm();
   }
@@ -104,18 +106,10 @@ function normalizeFields(value: Record<string, unknown> | undefined): TopicFormS
   return normalized;
 }
 
-function SideLabel({
-  title,
-  subtitle,
-}: {
-  title: string;
-  subtitle?: string;
-}) {
+function SideLabel({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div className="space-y-3">
-      <p className="text-xl font-medium tracking-tight md:text-[1.9rem]">
-        {title}
-      </p>
+      <p className="font-medium tracking-tight">{title}</p>
       {subtitle ? (
         <p className="text-base leading-7 text-muted-foreground md:text-lg">
           {subtitle}
@@ -214,16 +208,11 @@ export default function TopicsInputTable() {
   }
 
   return (
-    <Card className="border-border/70 bg-background/95 shadow-lg">
+    <Card>
       <CardHeader className="gap-3">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div className="space-y-1.5">
-            <CardTitle className="text-2xl">주제 기초 정보 표</CardTitle>
-            <CardDescription className="max-w-2xl leading-6">
-              첨부해준 양식처럼 전공 우선순위, 키워드, 전공 가치관, 계열 적합
-              역량을 한 장 표에서 정리할 수 있게 구성했어요. 입력한 내용은 이
-              브라우저의 로컬스토리지에 자동 저장돼요.
-            </CardDescription>
+            <CardTitle className="text-2xl">재료함</CardTitle>
           </div>
 
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -253,17 +242,17 @@ export default function TopicsInputTable() {
                   {index === 0 ? (
                     <TableCell
                       rowSpan={5}
-                      className="border-r border-border bg-muted/15 px-6 py-10 text-center align-middle"
+                      className="border-r border-border bg-muted/15 px-6 py-10 text-center align-middle whitespace-normal"
                     >
                       <SideLabel title="전공 세부 키워드" />
                     </TableCell>
                   ) : null}
 
-                  <TableCell className="border-r border-border bg-muted/10 px-6 py-6 text-center align-middle">
+                  <TableCell className="border-r border-border bg-muted/10 px-6 py-6 text-center align-middle whitespace-normal">
                     <SideLabel title={field.label} />
                   </TableCell>
 
-                  <TableCell className="px-5 py-3 align-middle">
+                  <TableCell className="px-5 py-3 align-middle whitespace-normal">
                     <Input
                       value={fields[field.id]}
                       onChange={(event) =>
@@ -277,14 +266,19 @@ export default function TopicsInputTable() {
               ))}
 
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableCell colSpan={2} className="px-6 py-6 align-top">
+                <TableCell
+                  colSpan={2}
+                  className="px-6 py-6 align-top whitespace-normal"
+                >
                   <div className="space-y-4">
                     <p className="text-xl font-medium tracking-tight md:text-[1.9rem]">
                       [기존 - 생활기록부 속 전공 세부 키워드]
                     </p>
                     <WorksheetTextarea
                       value={fields.existingKeywords}
-                      onChange={(value) => updateField('existingKeywords', value)}
+                      onChange={(value) =>
+                        updateField('existingKeywords', value)
+                      }
                       placeholder="생활기록부에서 이미 드러난 전공 관련 키워드를 자유롭게 정리해보세요."
                       className="min-h-[220px]"
                     />
@@ -293,7 +287,10 @@ export default function TopicsInputTable() {
               </TableRow>
 
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableCell colSpan={2} className="px-6 py-6 align-top">
+                <TableCell
+                  colSpan={2}
+                  className="px-6 py-6 align-top whitespace-normal"
+                >
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <p className="text-xl font-medium tracking-tight md:text-[1.9rem]">
@@ -317,10 +314,13 @@ export default function TopicsInputTable() {
               </TableRow>
 
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableCell className="border-r border-border bg-muted/15 px-6 py-8 text-center align-middle">
+                <TableCell className="border-r border-border bg-muted/15 px-6 py-8 text-center align-middle whitespace-normal">
                   <SideLabel title="전공 가치관" />
                 </TableCell>
-                <TableCell colSpan={2} className="px-6 py-5 align-top">
+                <TableCell
+                  colSpan={2}
+                  className="px-6 py-5 align-top whitespace-normal"
+                >
                   <WorksheetTextarea
                     value={fields.majorValues}
                     onChange={(value) => updateField('majorValues', value)}
@@ -333,17 +333,17 @@ export default function TopicsInputTable() {
               <TableRow className="border-b border-border hover:bg-transparent">
                 <TableCell
                   rowSpan={2}
-                  className="border-r border-border bg-muted/15 px-6 py-10 text-center align-middle"
+                  className="border-r border-border bg-muted/15 px-6 py-10 text-center align-middle whitespace-normal"
                 >
                   <SideLabel title="계열 적합 역량" />
                 </TableCell>
-                <TableCell className="border-r border-border bg-muted/10 px-6 py-8 text-center align-middle">
+                <TableCell className="border-r border-border bg-muted/10 px-6 py-8 text-center align-middle whitespace-normal">
                   <SideLabel
                     title="전공 계열 적합 역량"
                     subtitle="(+ 순수 학문 역량)"
                   />
                 </TableCell>
-                <TableCell className="px-6 py-5 align-top">
+                <TableCell className="px-6 py-5 align-top whitespace-normal">
                   <div className="space-y-3">
                     <p className="text-base leading-7 text-muted-foreground md:text-lg">
                       전공 가치관을 실현하기 위한 능력
@@ -362,10 +362,10 @@ export default function TopicsInputTable() {
               </TableRow>
 
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableCell className="border-r border-border bg-muted/10 px-6 py-8 text-center align-middle">
+                <TableCell className="border-r border-border bg-muted/10 px-6 py-8 text-center align-middle whitespace-normal">
                   <SideLabel title="차별화 역량" />
                 </TableCell>
-                <TableCell className="px-6 py-5 align-top">
+                <TableCell className="px-6 py-5 align-top whitespace-normal">
                   <div className="space-y-3">
                     <p className="text-base leading-7 text-muted-foreground md:text-lg">
                       전공과 직접적인 연관이 없어도 활용가능한 나만의 능력 /
