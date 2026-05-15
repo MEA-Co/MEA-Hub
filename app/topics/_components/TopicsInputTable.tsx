@@ -39,24 +39,20 @@ type StoredTopicsPayload = {
 type RankField = {
   id: Extract<TopicFieldId, 'firstMajor' | 'secondMajor' | 'thirdMajor'>;
   label: string;
-  placeholder: string;
 };
 
 const RANK_FIELDS: RankField[] = [
   {
     id: 'firstMajor',
     label: '1순위 전공',
-    placeholder: '예: 컴퓨터공학과',
   },
   {
     id: 'secondMajor',
     label: '2순위 전공',
-    placeholder: '예: 인공지능학과',
   },
   {
     id: 'thirdMajor',
     label: '3순위 전공',
-    placeholder: '예: 데이터사이언스학과',
   },
 ];
 
@@ -108,10 +104,10 @@ function normalizeFields(
 
 function SideLabel({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
-    <div className="space-y-3">
-      <p className="font-medium tracking-tight">{title}</p>
+    <div className="space-y-1.5 md:space-y-2.5">
+      <p className="text-sm font-medium tracking-tight md:text-base">{title}</p>
       {subtitle ? (
-        <p className="text-base leading-7 text-muted-foreground md:text-lg">
+        <p className="text-xs leading-5 text-muted-foreground md:text-sm md:leading-6">
           {subtitle}
         </p>
       ) : null}
@@ -127,7 +123,7 @@ function WorksheetTextarea({
 }: {
   value: string;
   onChange: (value: string) => void;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
 }) {
   return (
@@ -136,7 +132,7 @@ function WorksheetTextarea({
       onChange={(event) => onChange(event.currentTarget.value)}
       placeholder={placeholder}
       className={[
-        'resize-y border-0 bg-transparent px-0 py-0 text-base leading-7 shadow-none focus-visible:ring-0',
+        'resize-y border-0 bg-transparent px-0 py-0 text-sm leading-6 shadow-none focus-visible:ring-0 md:text-base md:leading-7',
         className,
       ]
         .filter(Boolean)
@@ -209,14 +205,14 @@ export default function TopicsInputTable() {
 
   return (
     <Card>
-      <CardHeader className="gap-3">
+      <CardHeader className="gap-2 px-4 pb-0 sm:px-6">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div className="space-y-1.5">
-            <CardTitle className="text-2xl">재료함</CardTitle>
+            <CardTitle className="text-xl md:text-2xl">재료함</CardTitle>
           </div>
 
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <SaveIcon className="size-4" />
+          <div className="flex items-center gap-2 text-xs text-muted-foreground md:text-sm">
+            <SaveIcon className="size-3.5 md:size-4" />
             <span>
               {hasLoaded ? lastSavedLabel : '저장된 내용을 불러오는 중...'}
             </span>
@@ -224,13 +220,13 @@ export default function TopicsInputTable() {
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 px-4 pt-4 sm:px-6">
         <div className="overflow-hidden rounded-xl border border-border/70">
-          <Table className="min-w-[980px] table-fixed border-collapse">
+          <Table className="mx-auto w-[clamp(22.5rem,92vw,48rem)] min-w-[22.5rem] table-fixed border-collapse lg:w-[64rem]">
             <colgroup>
-              <col className="w-[21%]" />
-              <col className="w-[24%]" />
-              <col className="w-[55%]" />
+              <col className="w-[24%] md:w-[21%]" />
+              <col className="w-[28%] md:w-[24%]" />
+              <col className="w-[48%] md:w-[55%]" />
             </colgroup>
 
             <TableBody>
@@ -242,24 +238,23 @@ export default function TopicsInputTable() {
                   {index === 0 ? (
                     <TableCell
                       rowSpan={5}
-                      className="border-r border-border bg-muted/15 px-6 py-10 text-center align-middle whitespace-normal"
+                      className="border-r border-border bg-muted/15 px-3 py-5 text-center align-middle whitespace-normal md:px-5 md:py-8"
                     >
                       <SideLabel title="전공 세부 키워드" />
                     </TableCell>
                   ) : null}
 
-                  <TableCell className="border-r border-border bg-muted/10 px-6 py-6 text-center align-middle whitespace-normal">
+                  <TableCell className="border-r border-border bg-muted/10 px-3 py-4 text-center align-middle whitespace-normal md:px-5 md:py-5">
                     <SideLabel title={field.label} />
                   </TableCell>
 
-                  <TableCell className="px-5 py-3 align-middle whitespace-normal">
+                  <TableCell className="px-3 py-2 align-middle whitespace-normal md:px-4 md:py-3">
                     <Input
                       value={fields[field.id]}
                       onChange={(event) =>
                         updateField(field.id, event.currentTarget.value)
                       }
-                      placeholder={field.placeholder}
-                      className="h-14 border-0 bg-transparent px-0 text-lg shadow-none focus-visible:ring-0"
+                      className="h-10 border-0 bg-transparent px-0 text-sm shadow-none focus-visible:ring-0 md:h-12 md:text-base"
                     />
                   </TableCell>
                 </TableRow>
@@ -268,10 +263,10 @@ export default function TopicsInputTable() {
               <TableRow className="border-b border-border hover:bg-transparent">
                 <TableCell
                   colSpan={2}
-                  className="px-6 py-6 align-top whitespace-normal"
+                  className="px-3 py-4 align-top whitespace-normal md:px-5 md:py-5"
                 >
-                  <div className="space-y-4">
-                    <p className="text-xl font-medium tracking-tight md:text-[1.9rem]">
+                  <div className="space-y-3">
+                    <p className="text-sm font-medium tracking-tight md:text-base">
                       [기존 - 생활기록부 속 전공 세부 키워드]
                     </p>
                     <WorksheetTextarea
@@ -279,8 +274,7 @@ export default function TopicsInputTable() {
                       onChange={(value) =>
                         updateField('existingKeywords', value)
                       }
-                      placeholder="생활기록부에서 이미 드러난 전공 관련 키워드를 자유롭게 정리해보세요."
-                      className="min-h-[220px]"
+                      className="min-h-[140px]"
                     />
                   </div>
                 </TableCell>
@@ -289,43 +283,36 @@ export default function TopicsInputTable() {
               <TableRow className="border-b border-border hover:bg-transparent">
                 <TableCell
                   colSpan={2}
-                  className="px-6 py-6 align-top whitespace-normal"
+                  className="px-3 py-4 align-top whitespace-normal md:px-5 md:py-5"
                 >
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <p className="text-xl font-medium tracking-tight md:text-[1.9rem]">
+                  <div className="space-y-3">
+                    <div className="space-y-1.5">
+                      <p className="text-sm font-medium tracking-tight md:text-base">
                         [신규 - 학과/연구실 사이트에서 가져온 전공 세부 키워드]
-                      </p>
-                      <p className="text-base leading-7 text-muted-foreground md:text-lg">
-                        (키워드), (사이트 주소)로 작성
-                      </p>
-                      <p className="text-base leading-7 text-muted-foreground md:text-lg">
-                        (예시) AutoML, https://cse.snu.ac.kr/research/labs/1
                       </p>
                     </div>
                     <WorksheetTextarea
                       value={fields.newKeywords}
                       onChange={(value) => updateField('newKeywords', value)}
-                      placeholder="예: 인간-컴퓨터 상호작용, https://example.ac.kr/lab"
-                      className="min-h-[220px]"
+                      placeholder="예: 인간-컴퓨터 상호작용"
+                      className="min-h-[140px]"
                     />
                   </div>
                 </TableCell>
               </TableRow>
 
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableCell className="border-r border-border bg-muted/15 px-6 py-8 text-center align-middle whitespace-normal">
+                <TableCell className="border-r border-border bg-muted/15 px-3 py-5 text-center align-middle whitespace-normal md:px-5 md:py-7">
                   <SideLabel title="전공 가치관" />
                 </TableCell>
                 <TableCell
                   colSpan={2}
-                  className="px-6 py-5 align-top whitespace-normal"
+                  className="px-3 py-4 align-top whitespace-normal md:px-5 md:py-4"
                 >
                   <WorksheetTextarea
                     value={fields.majorValues}
                     onChange={(value) => updateField('majorValues', value)}
-                    placeholder="전공을 통해 실현하고 싶은 가치, 전공을 바라보는 기준, 중요하게 여기는 문제의식 등을 적어보세요."
-                    className="min-h-[120px]"
+                    className="min-h-[96px] md:min-h-[120px]"
                   />
                 </TableCell>
               </TableRow>
@@ -333,51 +320,41 @@ export default function TopicsInputTable() {
               <TableRow className="border-b border-border hover:bg-transparent">
                 <TableCell
                   rowSpan={2}
-                  className="border-r border-border bg-muted/15 px-6 py-10 text-center align-middle whitespace-normal"
+                  className="border-r border-border bg-muted/15 px-3 py-5 text-center align-middle whitespace-normal md:px-5 md:py-8"
                 >
                   <SideLabel title="계열 적합 역량" />
                 </TableCell>
-                <TableCell className="border-r border-border bg-muted/10 px-6 py-8 text-center align-middle whitespace-normal">
+                <TableCell className="border-r border-border bg-muted/10 px-3 py-5 text-center align-middle whitespace-normal md:px-5 md:py-7">
                   <SideLabel
                     title="전공 계열 적합 역량"
                     subtitle="(+ 순수 학문 역량)"
                   />
                 </TableCell>
-                <TableCell className="px-6 py-5 align-top whitespace-normal">
-                  <div className="space-y-3">
-                    <p className="text-base leading-7 text-muted-foreground md:text-lg">
-                      전공 가치관을 실현하기 위한 능력
-                      <br />/ 전공과 관련하여 이번 학기에 드러내고자 하는 능력
-                    </p>
+                <TableCell className="px-3 py-4 align-top whitespace-normal md:px-5 md:py-4">
+                  <div className="space-y-2.5">
                     <WorksheetTextarea
                       value={fields.academicCompetency}
                       onChange={(value) =>
                         updateField('academicCompetency', value)
                       }
-                      placeholder="예: 수리적 추론, 실험 설계, 비판적 읽기, 탐구 지속력..."
-                      className="min-h-[160px]"
+                      className="min-h-[120px] md:min-h-[160px]"
                     />
                   </div>
                 </TableCell>
               </TableRow>
 
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableCell className="border-r border-border bg-muted/10 px-6 py-8 text-center align-middle whitespace-normal">
+                <TableCell className="border-r border-border bg-muted/10 px-3 py-5 text-center align-middle whitespace-normal md:px-5 md:py-7">
                   <SideLabel title="차별화 역량" />
                 </TableCell>
-                <TableCell className="px-6 py-5 align-top whitespace-normal">
-                  <div className="space-y-3">
-                    <p className="text-base leading-7 text-muted-foreground md:text-lg">
-                      전공과 직접적인 연관이 없어도 활용가능한 나만의 능력 /
-                      관심사
-                    </p>
+                <TableCell className="px-3 py-4 align-top whitespace-normal md:px-5 md:py-4">
+                  <div className="space-y-2.5">
                     <WorksheetTextarea
                       value={fields.differentiatedCompetency}
                       onChange={(value) =>
                         updateField('differentiatedCompetency', value)
                       }
-                      placeholder="예: 스토리텔링, 시각화, 리더십, 관찰력, 꾸준한 기록 습관..."
-                      className="min-h-[160px]"
+                      className="min-h-[120px] md:min-h-[160px]"
                     />
                   </div>
                 </TableCell>
@@ -386,13 +363,13 @@ export default function TopicsInputTable() {
           </Table>
         </div>
 
-        <div className="flex flex-col gap-3 rounded-xl bg-muted/40 p-4 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 rounded-xl bg-muted/40 p-3 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between md:p-4 md:text-sm">
           <p>같은 브라우저에서 다시 열면 자동으로 이어서 작성할 수 있어요.</p>
           <Button
             type="button"
             variant="outline"
             onClick={resetFields}
-            className="w-full md:w-auto"
+            className="h-9 w-full text-xs md:w-auto md:text-sm"
           >
             <RotateCcwIcon />
             입력 초기화
