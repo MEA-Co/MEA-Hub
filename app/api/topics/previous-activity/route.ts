@@ -72,37 +72,55 @@ function badRequest(message: string) {
   return NextResponse.json({ error: message }, { status: 400 });
 }
 
+function trimRequestInput(value: unknown) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
 async function generateWithModel(
   client: OpenAI,
   model: string,
   motivationInput: string,
+  detailKeywordInput: string,
+  competencyInput: string,
   worksheetSummary: string[],
 ): Promise<PreviousActivityTopicResponse> {
   const prompt = [
     '너는 대한민국 고등학생의 생활기록부용 탐구 주제를 설계하는 입학 컨설턴트다.',
     '학생이 입력한 계기를 가장 중요하게 사용하고, 재료함 내용은 보조 키워드로만 활용하라.',
+    '학생이 입력한 세부 키워드가 있다면 탐구 주제, 구체화, 사용된 키워드 목록에 반드시 반영하라.',
+    '학생이 입력한 역량이 있다면 탐구 방법론이나 구체화 방향에서 그 역량을 살릴 수 있도록 추천하라.',
     '재료함 정보는 1순위 희망 전공, 전공 세부 키워드, 전공 가치관, 차별화 역량만 참고하라.',
     '재료함 정보는 반영 가능한 것만 선택적으로 활용하고, 계기와 관련성이 낮으면 굳이 사용하지 마라.',
-    '출력은 반드시 지정된 JSON 스키마만 사용하라.',
+    '출력은 반드시 지정된 JSON 스키마만 사용하라. 또한, 출력의 어투는 개조식으로 하고, 문장형으로 응답하지 마라',
     '계기 작성 규칙:',
     '- 학생이 입력한 계기를 바탕으로 탐구의 출발점을 자연스럽고 구체적으로 정리한다.',
     '- 필요하다면 문장을 다듬을 수는 있지만 입력한 계기의 핵심 문제의식은 유지한다.',
     '주제 작성 규칙:',
     '- 반드시 키워드와 탐구 방법을 함께 포함한다.',
+    '- 학생이 입력한 세부 키워드가 있다면 해당 키워드를 반드시 포함한다.',
     '- 탐구 방법은 비교 분석, 실험, 문헌 조사, 설문, 사례 조사 등 고등학생이 수행 가능한 수준이어야 한다.',
     '구체화 작성 규칙:',
     '- 탐구를 대신 수행하지 말라.',
     '- 학생이 탐구 과정에서 구체적으로 밝혀야 할 점을 제안하라.',
     '- 변수, 비교 기준, 실험 조건, 관찰 지표, 수치화 포인트 등을 포함할 수 있다.',
+    '- 학생이 입력한 역량이 있다면 그 역량이 드러날 수 있는 방법론, 분석 기준, 산출물 방향을 포함한다.',
     '역량 작성 규칙:',
     '- 이 탐구를 통해 생활기록부에서 어필 가능한 역량을 제안하라.',
+    '- 학생이 입력한 역량이 있다면 그 역량을 중심으로 제안하되 억지로 여러 역량으로 확장하지 마라.',
     '성장 작성 규칙:',
     '- 이번 탐구 이후에 이어질 수 있는 후속 탐구 주제를 제안하라.',
     '사용된 키워드 목록 규칙:',
-    '- 주어진 재료함 내용과 입력된 계기 중 실제 결과에 반영한 키워드만 포함하라.',
+    '- 주어진 재료함 내용, 입력된 계기, 입력된 세부 키워드, 입력된 역량 중 실제 결과에 반영한 키워드만 포함하라.',
+    '- 학생이 입력한 세부 키워드가 있다면 반드시 포함하라.',
     '',
     '[학생이 입력한 계기]',
     motivationInput,
+    '',
+    '[학생이 입력한 세부 키워드]',
+    detailKeywordInput || '입력 없음',
+    '',
+    '[학생이 입력한 역량]',
+    competencyInput || '입력 없음',
     '',
     '[재료함 보조 키워드]',
     worksheetSummary.length > 0
@@ -153,7 +171,9 @@ export async function POST(request: Request) {
     return badRequest('요청 본문을 읽을 수 없습니다.');
   }
 
-  const motivationInput = body.motivationInput?.trim();
+  const motivationInput = trimRequestInput(body.motivationInput);
+  const detailKeywordInput = trimRequestInput(body.detailKeywordInput);
+  const competencyInput = trimRequestInput(body.competencyInput);
 
   if (!motivationInput) {
     return badRequest('계기를 입력해주세요.');
@@ -181,6 +201,8 @@ export async function POST(request: Request) {
         client,
         REQUESTED_MODEL,
         motivationInput,
+        detailKeywordInput,
+        competencyInput,
         worksheetSummary,
       );
       return NextResponse.json(result);
@@ -193,6 +215,8 @@ export async function POST(request: Request) {
         client,
         FALLBACK_MODEL,
         motivationInput,
+        detailKeywordInput,
+        competencyInput,
         worksheetSummary,
       );
       return NextResponse.json(result);

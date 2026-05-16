@@ -22,6 +22,8 @@ import type { PreviousActivityTopicResponse } from '../_lib/topicGeneration';
 
 export default function TopicGenerationTabs() {
   const [motivationInput, setMotivationInput] = useState('');
+  const [detailKeywordInput, setDetailKeywordInput] = useState('');
+  const [competencyInput, setCompetencyInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<PreviousActivityTopicResponse | null>(
@@ -29,9 +31,11 @@ export default function TopicGenerationTabs() {
   );
 
   async function handleGenerateTopic() {
-    const trimmed = motivationInput.trim();
+    const trimmedMotivation = motivationInput.trim();
+    const trimmedDetailKeyword = detailKeywordInput.trim();
+    const trimmedCompetency = competencyInput.trim();
 
-    if (!trimmed) {
+    if (!trimmedMotivation) {
       setError('계기를 먼저 입력해주세요.');
       return;
     }
@@ -61,7 +65,9 @@ export default function TopicGenerationTabs() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            motivationInput: trimmed,
+            motivationInput: trimmedMotivation,
+            detailKeywordInput: trimmedDetailKeyword,
+            competencyInput: trimmedCompetency,
             worksheet,
           }),
           timeoutMs: 60000,
@@ -93,15 +99,18 @@ export default function TopicGenerationTabs() {
         <CardHeader>
           <CardTitle>주제 고도화하기</CardTitle>
           <CardDescription>
-            전공 세부 키워드 또는 이전 활동에서 부족했던 점, 더 알아보고 싶었던
-            점 등을 작성해주세요.
+            이전 활동에서 부족했던 점, 더 알아보고 싶었던 점, 꼭 살리고 싶은
+            전공 방향을 나누어 작성해주세요.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <p className="text-sm font-medium">
-              Seed (계기 or 세부 전공 키워드)
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium">계기</p>
+              <span className="text-xs font-medium text-destructive">
+                필수
+              </span>
+            </div>
             <Textarea
               value={motivationInput}
               onChange={(event) =>
@@ -109,6 +118,42 @@ export default function TopicGenerationTabs() {
               }
               placeholder="예: 학교 캠페인을 준비하면서 친환경 포장이 실제로 얼마나 효과적인지 궁금해졌어."
             />
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium">세부 키워드</p>
+              <span className="text-xs font-medium text-muted-foreground">
+                선택
+              </span>
+            </div>
+            <Textarea
+              value={detailKeywordInput}
+              onChange={(event) =>
+                setDetailKeywordInput(event.currentTarget.value)
+              }
+              placeholder="선택 입력: 생분해성 플라스틱, 탄소발자국, 소비자 인식 조사 등"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium">역량</p>
+              <span className="text-xs font-medium text-muted-foreground">
+                선택
+              </span>
+            </div>
+            <Textarea
+              value={competencyInput}
+              onChange={(event) =>
+                setCompetencyInput(event.currentTarget.value)
+              }
+              placeholder="선택 입력: 데이터 분석력"
+            />
+            <p className="text-sm font-medium text-destructive">
+              역량은 이번 탐구에서 살리고 싶은 핵심 역량이 있다면 하나만
+              입력해주세요.
+            </p>
           </div>
 
           <div className="space-y-2">
