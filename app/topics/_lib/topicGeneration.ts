@@ -1,7 +1,7 @@
 import type { TopicWorksheetState } from './topicWorksheet';
 
 export type PreviousActivityTopicRequest = {
-  activityDescription: string;
+  motivationInput: string;
   worksheet: TopicWorksheetState;
 };
 

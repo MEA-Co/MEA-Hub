@@ -9,12 +9,12 @@ import {
 import {
   getMissingRequiredTopicWorksheetFields,
   normalizeTopicWorksheet,
-  summarizeTopicWorksheet,
+  summarizeTopicWorksheetForTopicGeneration,
 } from '@/app/topics/_lib/topicWorksheet';
 
 export const runtime = 'nodejs';
 
-const REQUESTED_MODEL = 'gpt-5.5-nano';
+const REQUESTED_MODEL = 'gpt-5.4-nano';
 const FALLBACK_MODEL = process.env.OPENAI_TOPIC_MODEL_FALLBACK ?? 'gpt-5-nano';
 
 const TOPIC_RESPONSE_SCHEMA = {
@@ -75,16 +75,18 @@ function badRequest(message: string) {
 async function generateWithModel(
   client: OpenAI,
   model: string,
-  activityDescription: string,
+  motivationInput: string,
   worksheetSummary: string[],
 ): Promise<PreviousActivityTopicResponse> {
   const prompt = [
     '너는 대한민국 고등학생의 생활기록부용 탐구 주제를 설계하는 입학 컨설턴트다.',
-    '이전 활동 설명을 가장 중요하게 사용하고, 재료함 내용은 보조 키워드로만 활용하라.',
+    '학생이 입력한 계기를 가장 중요하게 사용하고, 재료함 내용은 보조 키워드로만 활용하라.',
+    '재료함 정보는 1순위 희망 전공, 전공 세부 키워드, 전공 가치관, 차별화 역량만 참고하라.',
+    '재료함 정보는 반영 가능한 것만 선택적으로 활용하고, 계기와 관련성이 낮으면 굳이 사용하지 마라.',
     '출력은 반드시 지정된 JSON 스키마만 사용하라.',
     '계기 작성 규칙:',
-    '- 이전 활동 설명에 부족한 점, 더 궁금한 점, 더 알아보고 싶은 점이 이미 드러나면 그것을 그대로 계기로 반영한다.',
-    '- 그런 정보가 부족하면 활동을 발전시키기 위한 자연스러운 문제의식이나 궁금증을 짧고 구체적으로 제안한다.',
+    '- 학생이 입력한 계기를 바탕으로 탐구의 출발점을 자연스럽고 구체적으로 정리한다.',
+    '- 필요하다면 문장을 다듬을 수는 있지만 입력한 계기의 핵심 문제의식은 유지한다.',
     '주제 작성 규칙:',
     '- 반드시 키워드와 탐구 방법을 함께 포함한다.',
     '- 탐구 방법은 비교 분석, 실험, 문헌 조사, 설문, 사례 조사 등 고등학생이 수행 가능한 수준이어야 한다.',
@@ -97,10 +99,10 @@ async function generateWithModel(
     '성장 작성 규칙:',
     '- 이번 탐구 이후에 이어질 수 있는 후속 탐구 주제를 제안하라.',
     '사용된 키워드 목록 규칙:',
-    '- 실제 결과에 반영한 키워드만 포함하라.',
+    '- 주어진 재료함 내용과 입력된 계기 중 실제 결과에 반영한 키워드만 포함하라.',
     '',
-    '[이전 활동 설명]',
-    activityDescription,
+    '[학생이 입력한 계기]',
+    motivationInput,
     '',
     '[재료함 보조 키워드]',
     worksheetSummary.length > 0
@@ -151,10 +153,10 @@ export async function POST(request: Request) {
     return badRequest('요청 본문을 읽을 수 없습니다.');
   }
 
-  const activityDescription = body.activityDescription?.trim();
+  const motivationInput = body.motivationInput?.trim();
 
-  if (!activityDescription) {
-    return badRequest('이전 활동 설명을 입력해주세요.');
+  if (!motivationInput) {
+    return badRequest('계기를 입력해주세요.');
   }
 
   const worksheet = normalizeTopicWorksheet(
@@ -170,7 +172,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const worksheetSummary = summarizeTopicWorksheet(worksheet);
+  const worksheetSummary = summarizeTopicWorksheetForTopicGeneration(worksheet);
   const client = new OpenAI({ apiKey });
 
   try {
@@ -178,7 +180,7 @@ export async function POST(request: Request) {
       const result = await generateWithModel(
         client,
         REQUESTED_MODEL,
-        activityDescription,
+        motivationInput,
         worksheetSummary,
       );
       return NextResponse.json(result);
@@ -190,7 +192,7 @@ export async function POST(request: Request) {
       const result = await generateWithModel(
         client,
         FALLBACK_MODEL,
-        activityDescription,
+        motivationInput,
         worksheetSummary,
       );
       return NextResponse.json(result);

@@ -103,6 +103,27 @@ export function summarizeTopicWorksheet(
     .map(([label, value]) => `${label}: ${value}`);
 }
 
+export function summarizeTopicWorksheetForTopicGeneration(
+  worksheet: TopicWorksheetState,
+): string[] {
+  const detailKeywords = [worksheet.existingKeywords, worksheet.newKeywords]
+    .map((value) => value.trim())
+    .filter((value) => value.length > 0)
+    .join('\n');
+
+  const sections: Array<[string, string]> = [
+    ['1순위 희망 전공', worksheet.firstMajor],
+    ['전공 세부 키워드', detailKeywords],
+    ['전공 가치관', worksheet.majorValues],
+    ['차별화 역량', worksheet.differentiatedCompetency],
+  ];
+
+  return sections
+    .map(([label, value]) => [label, value.trim()] as const)
+    .filter(([, value]) => value.length > 0)
+    .map(([label, value]) => `${label}: ${value}`);
+}
+
 export function getMissingRequiredTopicWorksheetFields(
   worksheet: TopicWorksheetState,
 ): string[] {
