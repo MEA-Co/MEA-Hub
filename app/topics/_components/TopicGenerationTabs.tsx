@@ -107,16 +107,14 @@ export default function TopicGenerationTabs() {
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <p className="text-sm font-medium">계기</p>
-              <span className="text-xs font-medium text-destructive">
-                필수
-              </span>
+              <span className="text-xs font-medium text-destructive">필수</span>
             </div>
             <Textarea
               value={motivationInput}
               onChange={(event) =>
                 setMotivationInput(event.currentTarget.value)
               }
-              placeholder="예: 학교 캠페인을 준비하면서 친환경 포장이 실제로 얼마나 효과적인지 궁금해졌어."
+              placeholder="이전 활동이나 주변에서 발견한 문제의식"
             />
           </div>
 
@@ -180,7 +178,6 @@ export default function TopicGenerationTabs() {
         <Card>
           <CardHeader>
             <CardTitle>추천된 탐구 주제</CardTitle>
-            <CardDescription>생성 모델: {result.model}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-1">
