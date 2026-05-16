@@ -99,7 +99,9 @@ export default function TopicGenerationTabs() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <p className="text-sm font-medium">Seed (계기)</p>
+            <p className="text-sm font-medium">
+              Seed (계기 or 세부 전공 키워드)
+            </p>
             <Textarea
               value={motivationInput}
               onChange={(event) =>
