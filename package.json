@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier -w .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:interview": "node --experimental-strip-types --test tests/interview-*.test.mjs app/interview/_lib/*.test.mjs",
+    "lint:interview": "eslint app/interview app/api/interview lib/server app/page.tsx app/record/page.tsx tests/interview-*.test.mjs"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
