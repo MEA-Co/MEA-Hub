@@ -15,11 +15,13 @@ import type { Activity } from '../_lib/types';
 export function PreparationTextPanel({
   activities,
   circumstances,
+  targetMajor,
   onImport,
   disabled = false,
 }: {
   activities: Activity[];
   circumstances: CircumstancesDraft;
+  targetMajor?: string;
   onImport: (value: ReturnType<typeof importPreparationText>) => void;
   disabled?: boolean;
 }) {
@@ -31,7 +33,11 @@ export function PreparationTextPanel({
     setError('');
     setStatus('');
     try {
-      const content = exportPreparationText(activities, circumstances);
+      const content = exportPreparationText(
+        activities,
+        circumstances,
+        targetMajor,
+      );
       const url = URL.createObjectURL(
         new Blob([content], { type: 'text/plain;charset=utf-8' }),
       );
@@ -40,7 +46,7 @@ export function PreparationTextPanel({
       link.download = `MEA-면접준비-${new Date().toISOString().slice(0, 10)}.txt`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
-      setStatus('활동과 특이사항을 TXT 파일로 저장했어요.');
+      setStatus('활동과 지원학과, 특이사항을 TXT 파일로 저장했어요.');
     } catch (cause) {
       setError(
         cause instanceof Error ? cause.message : '입력한 내용을 확인해주세요.',
@@ -57,7 +63,7 @@ export function PreparationTextPanel({
       onImport(parsed);
       setText('');
       setStatus(
-        `${parsed.activities.length}개 활동을 가져왔어요. ${parsed.circumstances ? '특이사항도 함께 가져왔어요.' : 'TXT에 특이사항이 없어 기존 특이사항은 유지했어요.'}`,
+        `${parsed.activities.length}개 활동을 가져왔어요. ${parsed.circumstances ? '특이사항도 함께 가져왔어요.' : 'TXT에 특이사항이 없어 기존 특이사항은 유지했어요.'} ${parsed.targetMajor === undefined ? '지원 정보가 없어 기존 지원학과는 유지했어요.' : '지원학과도 함께 가져왔어요.'}`,
       );
     } catch (cause) {
       setError(
@@ -82,8 +88,9 @@ export function PreparationTextPanel({
             작성 내용 보관하기
           </h2>
           <p className="mt-1 text-xs leading-6 text-neutral-500">
-            활동과 특이사항은 자동 저장되지 않습니다. 필요할 때 TXT로 저장했다가
-            내용을 붙여넣어 다시 사용하세요. 미완성 내용도 보관할 수 있어요.
+            활동·지원학과·특이사항은 자동 저장되지 않습니다. 필요할 때 TXT로
+            저장했다가 내용을 붙여넣어 다시 사용하세요. 미완성 내용도 보관할 수
+            있어요.
           </p>
         </div>
         <Button
@@ -104,7 +111,8 @@ export function PreparationTextPanel({
         <p className="mt-3 text-xs leading-6 text-neutral-500">
           저장한 TXT나 정리 도우미가 만든 TXT 내용을 붙여넣으세요. 생기부 원문과
           개인정보는 넣지 마세요. 가져오면 활동 목록을 교체합니다. 특이사항이
-          없는 TXT는 현재 특이사항을 그대로 유지합니다.
+          없는 TXT는 현재 특이사항을 그대로 유지합니다. 지원 정보가 없으면 현재
+          지원학과도 유지합니다.
         </p>
         <fieldset disabled={disabled} className="min-w-0">
           <label

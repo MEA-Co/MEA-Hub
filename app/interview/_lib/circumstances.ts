@@ -1,4 +1,9 @@
-import type { CareerChange, Circumstances, GradeConcern } from './types';
+import {
+  type CareerChange,
+  type Circumstances,
+  containsPrivateInformation,
+  type GradeConcern,
+} from './types';
 
 export type CircumstancesDraft = {
   grades_enabled: boolean;
@@ -20,11 +25,8 @@ export function initialCircumstancesDraft(): CircumstancesDraft {
   };
 }
 
-const RAW_CONTEXT =
-  /학교\s*생활\s*(?:세부\s*사항\s*)?기록부|주민\s*등록\s*번호|인적\s*[·ㆍ・및]?\s*학적\s*사항|\b\d{6}-[1-4]\d{6}\b/;
-
 function checkContext(text: string) {
-  if (RAW_CONTEXT.test(text))
+  if (containsPrivateInformation(text))
     throw new Error(
       '특이사항에도 원문·개인정보를 넣을 수 없습니다. 본인의 상황만 짧게 다시 정리해주세요.',
     );

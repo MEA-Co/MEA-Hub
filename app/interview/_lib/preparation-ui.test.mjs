@@ -114,6 +114,8 @@ function page({
   phase = 'setup',
   activeTab = 'activities',
   result = null,
+  targetMajor = '컴퓨터공학과',
+  interview: overrides = {},
 } = {}) {
   const panels = {};
   const calls = { storage: 0, start: [] };
@@ -138,12 +140,14 @@ function page({
     streamingText: '',
     streamingKind: 'activity',
     circumstancesSnapshot: null,
+    targetMajorSnapshot: '컴퓨터공학과',
     setAnswer: noop,
     start: (...args) => calls.start.push(args),
     submit: noop,
     finish: noop,
     retry: noop,
     reset: noop,
+    ...overrides,
   };
   const view = renderComponent('app/interview/page.tsx', {
     initialState: (index, value) =>
@@ -155,7 +159,9 @@ function page({
             ? true
             : index === 4
               ? plain(activities)
-              : value,
+              : index === 11
+                ? targetMajor
+                : value,
     modules: {
       './_components/interview-workspace': {
         InterviewWorkspace: ({ children }) => children,
@@ -165,6 +171,9 @@ function page({
       },
       './_components/circumstances-editor': {
         CircumstancesEditor: mockPanel('circumstances'),
+      },
+      './_components/preparation-guide': {
+        PreparationGuide: mockPanel('guide'),
       },
       './_components/preparation-text-panel': {
         PreparationTextPanel: mockPanel('text'),
@@ -190,22 +199,30 @@ function page({
   return { ...view, panels, calls };
 }
 
-test('page keeps optional circumstances on the activity tab and applies TXT imports together without storage hooks', () => {
+test('page places the guide before TXT, context and activities while preserving imported drafts', () => {
   const view = page();
   assert.equal(view.calls.storage, 0);
-  assert.equal(
-    view.all((node) => node.props['data-panel'] === 'circumstances').length,
-    1,
+  assert.deepEqual(
+    view
+      .all((node) => node.props['data-panel'])
+      .map((node) => node.props['data-panel']),
+    ['guide', 'text', 'circumstances', 'activities'],
   );
   const nextRows = [{ ...activities[0], title: '불러온 활동' }];
   view.panels.text.onImport({ activities: nextRows });
   view.render();
   assert.deepEqual(plain(view.panels.text.activities), nextRows);
   assert.deepEqual(plain(view.panels.text.circumstances), circumstances);
+  assert.equal(view.panels.text.targetMajor, '컴퓨터공학과');
   const nextContext = { ...circumstances, grades_enabled: false };
-  view.panels.text.onImport({ activities, circumstances: nextContext });
+  view.panels.text.onImport({
+    activities,
+    circumstances: nextContext,
+    targetMajor: '환경공학과',
+  });
   view.render();
   assert.deepEqual(plain(view.panels.text.circumstances), nextContext);
+  assert.equal(view.panels.text.targetMajor, '환경공학과');
   view.click('면접 설정으로 이동');
   assert.equal(
     view.all((node) => node.props['data-panel'] === 'circumstances').length,
@@ -221,6 +238,9 @@ test('page rejects activity, context, and TXT mutation callbacks throughout a li
   assert.equal(view.panels.activities.disabled, true);
   assert.equal(view.panels.circumstances.disabled, true);
   assert.equal(view.panels.text.disabled, true);
+  const majorInput = view.find((node) => node.props.id === 'target-major');
+  assert.equal(majorInput.props.disabled, true);
+  majorInput.props.onChange({ target: { value: '다른학과' } });
   view.panels.activities.onChange([]);
   view.panels.circumstances.onChange({
     ...circumstances,
@@ -232,6 +252,7 @@ test('page rejects activity, context, and TXT mutation callbacks throughout a li
   });
   view.render();
   assert.deepEqual(plain(view.panels.text.activities), activities);
+  assert.equal(view.panels.text.targetMajor, '컴퓨터공학과');
   assert.deepEqual(plain(view.panels.text.circumstances), circumstances);
 });
 
@@ -252,7 +273,8 @@ test('page sends one intro setting, allows absent reflection, and enforces the 2
   view.render();
   view.click('면접 시작하기');
   assert.equal(view.calls.start.length, 1);
-  const [rows, settings] = view.calls.start[0];
+  const [rows, settings, , targetMajor] = view.calls.start[0];
+  assert.equal(targetMajor, '컴퓨터공학과');
   assert.equal(rows[0].reflection, '');
   assert.equal(settings.duration_minutes, 20);
   assert.equal(settings.ask_intro, true);
@@ -290,4 +312,113 @@ test('result page offers only TXT export and downloads the question, answer, and
   assert.match(content, /무엇을 분석했나요/);
   assert.match(content, /비교 기준을 정리했습니다/);
   assert.match(content, /다음 연습 방향/);
+  assert.match(content, /지원학과: 컴퓨터공학과/);
+});
+
+test('missing or private target major returns to the activity field before starting an interview', () => {
+  const view = page({ activeTab: 'interview', targetMajor: '' });
+  view.click('면접 시작하기');
+  assert.equal(view.calls.start.length, 0);
+  const field = view.find((node) => node.props.id === 'target-major');
+  assert.equal(field.props['aria-invalid'], true);
+  assert.match(
+    view.text(view.find((node) => node.props.id === 'target-major-error')),
+    /1~100자/,
+  );
+  field.props.onChange({ target: { value: '컴퓨터공학과' } });
+  view.render();
+  assert.equal(
+    view.find((node) => node.props.id === 'target-major').props['aria-invalid'],
+    undefined,
+  );
+  view.click('면접 설정으로 이동');
+  view.click('면접 시작하기');
+  assert.equal(view.calls.start[0][3], '컴퓨터공학과');
+
+  const privateView = page({
+    activeTab: 'interview',
+    targetMajor: 'student@example.com',
+  });
+  privateView.click('면접 시작하기');
+  assert.equal(privateView.calls.start.length, 0);
+  assert.match(
+    privateView.text(
+      privateView.find((node) => node.props.id === 'target-major-error'),
+    ),
+    /개인정보/,
+  );
+});
+
+test('final question transitions are separate status messages and disappear along with old question text while busy', () => {
+  const question = {
+    kind: 'activity',
+    text: '자료구조의 차이를 설명해주세요.',
+    transition: '그럼 다음 질문으로 넘어갈게요.',
+    strategy: {
+      version: 'video-2026-10-27',
+      source: 'major',
+      major_topic: 'foundation',
+      focus: 'concept_understanding',
+      depth: 0,
+    },
+  };
+  const ready = page({
+    phase: 'live',
+    activeTab: 'interview',
+    interview: { question },
+  });
+  const marker = ready.find(
+    (node) => node.props['data-testid'] === 'question-transition',
+  );
+  assert.equal(marker.props.role, 'status');
+  assert.equal(ready.text(marker), question.transition);
+  assert.equal(
+    ready.text(ready.find((node) => node.props.id === 'current-question')),
+    question.text,
+  );
+  const busy = page({
+    phase: 'live',
+    activeTab: 'interview',
+    interview: { question, busy: true },
+  });
+  assert.equal(
+    busy.all((node) => node.props['data-testid'] === 'question-transition')
+      .length,
+    0,
+  );
+  assert.match(
+    busy.text(busy.find((node) => node.props.id === 'current-question')),
+    /다음 질문을 준비/,
+  );
+  assert.equal(
+    busy.all(
+      (node) => node.type === 'span' && busy.text(node) === '전공 기초 질문',
+    ).length,
+    0,
+  );
+  const failed = page({
+    phase: 'live',
+    activeTab: 'interview',
+    interview: { question, error: '연결이 끊겼어요.' },
+  });
+  assert.equal(
+    failed.text(failed.find((node) => node.props.id === 'current-question')),
+    question.text,
+  );
+});
+
+test('preparation TXT includes target major and activity-only imports preserve it until explicitly replaced', async () => {
+  const view = panel({ targetMajor: '환경공학과' });
+  view.click('활동·특이사항 TXT 저장');
+  assert.match(await view.downloads[0].blob.text(), /\| 환경공학과/);
+  view.paste(exportPreparationText(activities));
+  view.click('TXT 내용 가져오기');
+  assert.equal(view.imports[0].targetMajor, undefined);
+  const stateful = page();
+  stateful.panels.text.onImport(view.imports[0]);
+  stateful.render();
+  assert.equal(stateful.panels.text.targetMajor, '컴퓨터공학과');
+  stateful.panels.text.onImport({ activities, targetMajor: '' });
+  stateful.render();
+  assert.equal(stateful.panels.text.targetMajor, '');
 });

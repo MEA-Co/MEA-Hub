@@ -176,6 +176,10 @@
   background: #f6f6f3;
   color: #88887f;
 }
+.mea-workspace .mea-input[aria-invalid='true'] {
+  border-color: #b42318;
+  box-shadow: 0 0 0 2px #fee4e2;
+}
 .mea-input::placeholder {
   color: #a0a099;
 }

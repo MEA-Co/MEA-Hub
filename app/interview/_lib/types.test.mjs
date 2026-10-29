@@ -5,9 +5,83 @@ import {
   activityDraftError,
   activityError,
   cleanActivities,
+  containsPrivateInformation,
+  formatResultText,
   importActivities,
   isActivityReady,
+  questionTypeLabel,
+  targetMajorError,
+  turnFromQuestion,
 } from './types.ts';
+
+test('major question metadata keeps its topic and uses independent foundation, issue and follow-up labels', () => {
+  const question = {
+    kind: 'activity',
+    text: '어떤 기준으로 비교하겠나요?',
+    transition: '그럼 다음 질문으로 넘어갈게요.',
+    strategy: {
+      version: 'video-2026-10-27',
+      source: 'major',
+      major_topic: 'foundation',
+      focus: 'concept_understanding',
+      depth: 0,
+    },
+  };
+  assert.equal(questionTypeLabel(question), '전공 기초 질문');
+  assert.equal(
+    questionTypeLabel({
+      ...question,
+      strategy: { ...question.strategy, major_topic: 'issue' },
+    }),
+    '전공 이슈 질문',
+  );
+  assert.equal(
+    questionTypeLabel({
+      ...question,
+      strategy: { ...question.strategy, depth: 1 },
+    }),
+    '전공 꼬리질문',
+  );
+  const turn = turnFromQuestion(question, '비교할 조건을 먼저 맞추겠습니다.');
+  assert.equal(turn.strategy.major_topic, 'foundation');
+  assert.equal(turn.transition, undefined);
+  assert.equal(turn.question, question.text);
+  const result = {
+    summary: '근거를 확인했습니다.',
+    turns: [turn],
+    finish_reason: 'manual',
+    elapsed_seconds: 60,
+  };
+  assert.match(
+    formatResultText(result, '컴퓨터공학과'),
+    /지원학과: 컴퓨터공학과/,
+  );
+  assert.match(
+    formatResultText(result, '컴퓨터공학과'),
+    /질문 유형: 전공 기초 질문/,
+  );
+  assert.doesNotMatch(formatResultText(result), /지원학과:/);
+});
+
+test('target major shares basic record and contact privacy checks with activity content', () => {
+  assert.equal(targetMajorError('컴퓨터공학과'), null);
+  assert.equal(targetMajorError('가'.repeat(100)), null);
+  assert.match(targetMajorError('가'.repeat(101)), /1~100자/);
+  assert.match(targetMajorError('   '), /1~100자/);
+  assert.equal(targetMajorError('', false), null);
+  for (const value of [
+    '학교생활기록부',
+    '010-1234-5678',
+    'student@example.com',
+  ]) {
+    assert.equal(containsPrivateInformation(value), true);
+    assert.match(targetMajorError(value), /개인정보/);
+    assert.match(
+      activityDraftError([{ ...activity(), title: value }]),
+      /개인정보/,
+    );
+  }
+});
 
 function activity(index = 1) {
   return {

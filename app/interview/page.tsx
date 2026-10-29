@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button';
 import { ActivityEditor } from './_components/activity-editor';
 import { CircumstancesEditor } from './_components/circumstances-editor';
 import { InterviewWorkspace } from './_components/interview-workspace';
+import { PreparationGuide } from './_components/preparation-guide';
 import { PreparationTextPanel } from './_components/preparation-text-panel';
 import {
   buildCircumstances,
@@ -37,6 +38,7 @@ import {
   KIND_LABELS,
   questionTypeLabel,
   type Settings,
+  targetMajorError,
 } from './_lib/types';
 import { useInterview } from './_lib/use-interview';
 import { useRecorder } from './_lib/use-recorder';
@@ -118,9 +120,13 @@ export default function InterviewPage() {
   const [capabilitiesKnown, setCapabilitiesKnown] = useState(false);
   const [audioNotice, setAudioNotice] = useState('');
   const [consentAttention, setConsentAttention] = useState(0);
+  const [targetMajor, setTargetMajor] = useState('');
+  const [targetMajorIssue, setTargetMajorIssue] = useState('');
+  const [majorAttention, setMajorAttention] = useState(0);
   const interview = useInterview();
   const consentBlock = useRef<HTMLDivElement | null>(null);
   const consentBox = useRef<HTMLInputElement | null>(null);
+  const targetMajorBox = useRef<HTMLInputElement | null>(null);
   const answerBox = useRef<HTMLTextAreaElement | null>(null);
   const headline = useRef<HTMLHeadingElement | null>(null);
   const speechPrefix = useRef('');
@@ -189,6 +195,18 @@ export default function InterviewPage() {
     });
   }, [activeTab, consent, consentAttention]);
 
+  useEffect(() => {
+    if (activeTab !== 'activities' || !targetMajorIssue || majorAttention === 0)
+      return;
+    targetMajorBox.current?.focus({ preventScroll: true });
+    targetMajorBox.current?.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'auto'
+        : 'smooth',
+      block: 'center',
+    });
+  }, [activeTab, majorAttention, targetMajorIssue]);
+
   const requestConsent = () => {
     setActiveTab('activities');
     setConsentAttention((attempt) => attempt + 1);
@@ -205,6 +223,14 @@ export default function InterviewPage() {
 
   const begin = () => {
     if (interview.busy || interview.phase !== 'setup') return;
+    const majorIssue = targetMajorError(targetMajor);
+    if (majorIssue) {
+      setSetupError(majorIssue);
+      setTargetMajorIssue(majorIssue);
+      setMajorAttention((attempt) => attempt + 1);
+      setActiveTab('activities');
+      return;
+    }
     const cleaned = cleanActivities(activities);
     const error = activityError(cleaned);
     if (error) {
@@ -237,14 +263,14 @@ export default function InterviewPage() {
     setSetupError('');
     setActivities(cleaned);
     setActiveTab('interview');
-    interview.start(cleaned, settings, circumstances);
+    interview.start(cleaned, settings, circumstances, targetMajor.trim());
   };
 
   const download = () => {
     const result = interview.result;
     if (!result) return;
     const url = URL.createObjectURL(
-      new Blob([formatResultText(result)], {
+      new Blob([formatResultText(result, interview.targetMajorSnapshot)], {
         type: 'text/plain;charset=utf-8',
       }),
     );
@@ -255,7 +281,13 @@ export default function InterviewPage() {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
-  const currentText = interview.streamingText || interview.question?.text;
+  const currentText =
+    interview.streamingText ||
+    (!interview.busy ? interview.question?.text : undefined);
+  const transition =
+    !interview.busy && !interview.ending
+      ? interview.question?.transition
+      : undefined;
   const kind = interview.streamingText
     ? interview.streamingKind
     : (interview.question?.kind ?? interview.streamingKind);
@@ -369,13 +401,67 @@ export default function InterviewPage() {
             </p>
           )}
         </div>
+        <section
+          aria-labelledby="target-major-heading"
+          className="mea-card mb-4 p-4 sm:p-5"
+        >
+          <label
+            htmlFor="target-major"
+            id="target-major-heading"
+            className="text-sm font-semibold text-neutral-900"
+          >
+            지원학과{' '}
+            <span className="ml-1 text-xs font-normal text-red-700">필수</span>
+          </label>
+          <p
+            id="target-major-help"
+            className="mt-1 text-xs leading-6 text-neutral-500"
+          >
+            연습하려는 지원학과를 적어주세요. 활동과 전공 질문의 맥락에
+            참고합니다. 학교명·연락처 등 개인정보는 넣지 마세요.
+          </p>
+          <input
+            ref={targetMajorBox}
+            id="target-major"
+            type="text"
+            value={targetMajor}
+            required
+            maxLength={100}
+            disabled={interview.phase === 'live'}
+            aria-invalid={Boolean(targetMajorIssue) || undefined}
+            aria-describedby={`target-major-help${targetMajorIssue ? ' target-major-error' : ''}`}
+            onChange={(event) => {
+              if (interview.phase === 'live') return;
+              setTargetMajor(event.target.value);
+              if (targetMajorIssue)
+                setTargetMajorIssue(targetMajorError(event.target.value) ?? '');
+            }}
+            placeholder="예: 컴퓨터공학과"
+            className={`mea-input mt-3 ${targetMajorIssue ? 'border-red-500 ring-1 ring-red-200' : ''}`}
+          />
+          {targetMajorIssue && (
+            <p
+              id="target-major-error"
+              role="alert"
+              className="mt-2 text-xs text-red-700"
+            >
+              {targetMajorIssue}
+            </p>
+          )}
+        </section>
+        <PreparationGuide />
         <PreparationTextPanel
           activities={activities}
           circumstances={circumstancesDraft}
+          targetMajor={targetMajor}
           onImport={(value) => {
             if (interview.phase === 'live') return;
             setActivities(value.activities);
             if (value.circumstances) setCircumstancesDraft(value.circumstances);
+            if (value.targetMajor !== undefined) {
+              setTargetMajor(value.targetMajor);
+              setTargetMajorIssue('');
+            }
             setSetupError('');
           }}
           disabled={interview.phase === 'live'}
@@ -430,6 +516,10 @@ export default function InterviewPage() {
               <p className="mt-2 text-xs leading-6 text-neutral-400">
                 일반 경험 질문도 서버가 섞어 제시해요. 활동 목록 밖의 경험을
                 골라도 되고, 해당 경험이 없으면 없다고 답해도 괜찮아요.
+              </p>
+              <p className="mt-2 text-sm font-medium text-neutral-700">
+                지원학과:{' '}
+                {targetMajor.trim() || '활동 입력 탭에서 입력해주세요'}
               </p>
             </div>
             <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
@@ -685,6 +775,16 @@ export default function InterviewPage() {
                 </p>
               </div>
             )}
+            {transition && (
+              <p
+                role="status"
+                aria-live="polite"
+                data-testid="question-transition"
+                className="mb-3 border-l-2 border-[#FAE45E] pl-3 text-sm text-neutral-600"
+              >
+                {transition}
+              </p>
+            )}
             <section
               aria-labelledby="current-question"
               className="mea-question-section"
@@ -702,9 +802,11 @@ export default function InterviewPage() {
                 <span className="text-xs text-neutral-400">
                   {interview.ending
                     ? '결과 정리 중'
-                    : interview.busy || !interview.question
-                      ? KIND_LABELS[kind]
-                      : questionTypeLabel(interview.question)}
+                    : interview.busy
+                      ? '다음 질문 준비'
+                      : !interview.question
+                        ? KIND_LABELS[kind]
+                        : questionTypeLabel(interview.question)}
                 </span>
               </div>
               <div className="mea-question-body">
@@ -716,7 +818,10 @@ export default function InterviewPage() {
                 >
                   {interview.ending
                     ? '수고했어요. 질문과 답변을 정리하고 있습니다.'
-                    : currentText || '첫 질문을 준비하고 있어요.'}
+                    : currentText ||
+                      (interview.history.length > 0 || interview.question
+                        ? '다음 질문을 준비하고 있어요.'
+                        : '첫 질문을 준비하고 있어요.')}
                 </h2>
                 {interview.busy && (
                   <p className="mt-4 flex items-center gap-2 text-xs text-neutral-400">
@@ -964,6 +1069,11 @@ export default function InterviewPage() {
               >
                 면접 결과
               </h1>
+              {interview.targetMajorSnapshot && (
+                <p className="mt-2 text-sm font-medium text-neutral-700">
+                  지원학과: {interview.targetMajorSnapshot}
+                </p>
+              )}
               <p className="mt-3 text-sm text-neutral-500">
                 {
                   interview.result.turns.filter((turn) => turn.answer.trim())

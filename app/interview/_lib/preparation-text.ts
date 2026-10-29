@@ -1,10 +1,14 @@
 import type { CircumstancesDraft } from './circumstances';
-import { type Activity,CATEGORIES, importActivities } from './types';
+import {
+  type Activity,
+  CATEGORIES,
+  containsPrivateInformation,
+  importActivities,
+  targetMajorError,
+} from './types';
 
 export const PREPARATION_TEXT_HEADER = 'MEA 면접 준비 TXT v1';
 export const MAX_PREPARATION_TEXT_LENGTH = 200000;
-const RAW_OR_PRIVATE =
-  /학교\s*생활\s*(?:세부\s*사항\s*)?기록부|주민\s*등록\s*번호|인적\s*[·ㆍ・및]?\s*학적\s*사항|\d+\s*\.\s*출결\s*상황|(?<!\d)(?:\d{6}-?[1-4]\d{6}|01[016789][- .]?\d{3,4}[- .]?\d{4})(?!\d)|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
 const ACTIVITY_FIELDS = [
   '식별자',
   '학년',
@@ -20,12 +24,13 @@ const CAREER_FIELDS = ['이전 관심 분야', '현재 관심 분야', '상황 �
 type ImportedPreparation = {
   activities: Activity[];
   circumstances?: CircumstancesDraft;
+  targetMajor?: string;
 };
 function invalid(detail: string): never {
   throw new Error(`TXT 형식을 확인해주세요. ${detail}`);
 }
 function safe(text: string) {
-  if (RAW_OR_PRIVATE.test(text))
+  if (containsPrivateInformation(text))
     throw new Error(
       '원문·개인정보는 TXT에 넣을 수 없습니다. 본인의 말로 정리한 활동과 상황만 입력해주세요.',
     );
@@ -129,15 +134,32 @@ function validateActivities(activities: Activity[]) {
   }
 }
 
+function validateTargetMajor(value: string) {
+  text(value, 100);
+  const error = targetMajorError(value, false);
+  if (error) throw new Error(error);
+}
+
 /** Includes disabled/incomplete optional fields; starting an interview validates them later. */
 export function exportPreparationText(
   activities: Activity[],
   circumstancesDraft?: CircumstancesDraft,
+  targetMajor?: string,
 ): string {
   // Reuse activity schema/privacy/size checks without replacing the input with
   // its trimmed copy. Preparation files preserve the student's editing draft.
   validateActivities(activities);
   const sections: string[] = [PREPARATION_TEXT_HEADER];
+  if (targetMajor !== undefined) {
+    validateTargetMajor(targetMajor);
+    sections.push(
+      [
+        '[지원 정보]',
+        stringField('지원학과', targetMajor),
+        '[/지원 정보]',
+      ].join('\n'),
+    );
+  }
   for (const row of activities) {
     for (const value of [
       row.id,
@@ -259,11 +281,17 @@ export function importPreparationText(input: string): ImportedPreparation {
   };
   const activities: Activity[] = [];
   let circumstances: CircumstancesDraft | undefined;
+  let targetMajor: string | undefined;
   while (index < lines.length) {
     skip();
     if (index >= lines.length) break;
     const section = lines[index++];
-    if (section === '[활동]') {
+    if (section === '[지원 정보]') {
+      if (targetMajor !== undefined)
+        invalid('지원 정보 섹션이 중복되었습니다.');
+      const row = fields('[/지원 정보]', ['지원학과']);
+      targetMajor = required(row, '지원학과');
+    } else if (section === '[활동]') {
       if (activities.length >= 60)
         invalid('활동은 최대 60개까지 입력할 수 있어요.');
       const row = fields('[/활동]', ACTIVITY_FIELDS);
@@ -340,13 +368,15 @@ export function importPreparationText(input: string): ImportedPreparation {
       };
     } else
       invalid(
-        '알 수 없는 섹션이 있습니다. [활동] 또는 [특이사항]을 확인해주세요.',
+        '알 수 없는 섹션이 있습니다. [지원 정보]·[활동]·[특이사항]을 확인해주세요.',
       );
   }
   validateActivities(activities);
   if (circumstances) validateDraft(circumstances);
+  if (targetMajor !== undefined) validateTargetMajor(targetMajor);
   return {
     activities,
     ...(circumstances === undefined ? {} : { circumstances }),
+    ...(targetMajor === undefined ? {} : { targetMajor }),
   };
 }
