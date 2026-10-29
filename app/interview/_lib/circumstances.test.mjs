@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import {
+import { loadTypeScript } from '../../../tests/helpers/load-typescript.mjs';
+
+const {
   buildCircumstances,
   emptyGradeConcern,
   initialCircumstancesDraft,
   snapshotCircumstances,
-} from './circumstances.ts';
+} = loadTypeScript(new URL('./circumstances.ts', import.meta.url));
 import { streamInterview } from './stream.ts';
 import {
   formatResultText,

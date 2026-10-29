@@ -113,6 +113,7 @@ function renderInterviewPage({
         return {
           InterviewWorkspace: ({ children }) => children,
           ActivityEditor: EmptyPanel,
+          PreparationGuide: EmptyPanel,
           ActivityStorage: EmptyPanel,
           CircumstancesEditor: EmptyPanel,
         };

@@ -3,7 +3,9 @@ import test from 'node:test';
 
 import { loadTypeScript } from '../../../tests/helpers/load-typescript.mjs';
 
-import { initialCircumstancesDraft } from './circumstances.ts';
+const { initialCircumstancesDraft } = loadTypeScript(
+  new URL('./circumstances.ts', import.meta.url),
+);
 
 const {
   exportPreparationText,
@@ -31,6 +33,56 @@ function activity(index = 1) {
     reflection: '',
   };
 }
+
+test('optional application section roundtrips the major while legacy files leave it unspecified', () => {
+  const withMajor = exportPreparationText(
+    [activity()],
+    draft(),
+    '컴퓨터공학과',
+  );
+  assert.match(
+    withMajor,
+    /\[지원 정보\]\n지원학과:\n\| 컴퓨터공학과\n\[\/지원 정보\]/,
+  );
+  const parsed = importPreparationText(withMajor);
+  assert.equal(parsed.targetMajor, '컴퓨터공학과');
+  assert.equal(parsed.activities.length, 1);
+  assert.deepEqual(parsed.circumstances, draft());
+  assert.equal(
+    importPreparationText(exportPreparationText([activity()], draft()))
+      .targetMajor,
+    undefined,
+  );
+  assert.equal(
+    importPreparationText(exportPreparationText([], undefined, '')).targetMajor,
+    '',
+  );
+});
+
+test('invalid or duplicate application sections fail the whole preparation import', () => {
+  const base = exportPreparationText([activity()], draft(), '컴퓨터공학과');
+  assert.throws(
+    () =>
+      importPreparationText(
+        `${base}\n[지원 정보]\n지원학과:\n| 환경공학과\n[/지원 정보]\n`,
+      ),
+    /중복/,
+  );
+  for (const value of [
+    '가'.repeat(101),
+    '문의 student@example.com',
+    '010-1234-5678',
+    '학교생활기록부',
+    '컴퓨터\n공학과',
+  ]) {
+    assert.throws(() => exportPreparationText([activity()], draft(), value));
+  }
+  assert.throws(() =>
+    importPreparationText(
+      base.replace('| 컴퓨터공학과', `| ${'가'.repeat(101)}`),
+    ),
+  );
+});
 function draft() {
   return {
     grades_enabled: false,

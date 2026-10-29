@@ -39,10 +39,12 @@ export function useInterview() {
   const [minuteWarning, setMinuteWarning] = useState(false);
   const [circumstancesSnapshot, setCircumstancesSnapshot] =
     useState<Circumstances | null>(null);
+  const [targetMajorSnapshot, setTargetMajorSnapshot] = useState<string>();
   const context = useRef<{
     activities: Activity[];
     settings: Settings;
     circumstances?: Circumstances;
+    target_major?: string;
   } | null>(null);
   const historyRef = useRef<Turn[]>([]);
   const questionRef = useRef<Question | null>(null);
@@ -143,15 +145,19 @@ export function useInterview() {
       activities: Activity[],
       settings: Settings,
       circumstances?: Circumstances | null,
+      targetMajor?: string,
     ) => {
       if (currentRequest.current) return;
       const snapshot = snapshotCircumstances(circumstances);
+      const majorSnapshot = targetMajor?.trim();
       context.current = {
         activities,
         settings,
         ...(snapshot ? { circumstances: snapshot } : {}),
+        ...(majorSnapshot === undefined ? {} : { target_major: majorSnapshot }),
       };
       setCircumstancesSnapshot(snapshot);
+      setTargetMajorSnapshot(majorSnapshot);
       historyRef.current = [];
       questionRef.current = null;
       startRef.current = null;
@@ -287,6 +293,7 @@ export function useInterview() {
     setEnding(false);
     setMinuteWarning(false);
     setCircumstancesSnapshot(null);
+    setTargetMajorSnapshot(undefined);
     setPhase('setup');
   }, [setAnswer]);
 
@@ -335,6 +342,7 @@ export function useInterview() {
     remaining,
     minuteWarning,
     circumstancesSnapshot,
+    targetMajorSnapshot,
     startedAt,
     start,
     submit,

@@ -36,7 +36,8 @@ export type StrategyFocus =
   | 'limitations';
 export type QuestionStrategy = {
   version: 'video-2026-10-27';
-  source?: 'activity' | 'circumstance' | 'general' | 'intro';
+  source?: 'activity' | 'circumstance' | 'general' | 'intro' | 'major';
+  major_topic?: 'foundation' | 'issue' | null;
   activity_id?: string | null;
   circumstance_id?: 'grade_0' | 'grade_1' | 'grade_2' | 'career_change' | null;
   general_topic?:
@@ -53,6 +54,7 @@ export type Question = {
   text: string;
   kind: Kind;
   strategy?: QuestionStrategy | null;
+  transition?: string | null;
 };
 export type Turn = {
   question: string;
@@ -94,6 +96,7 @@ export type InterviewRequest = {
   settings: Settings;
   activities: Activity[];
   circumstances?: Circumstances | null;
+  target_major?: string;
   history: Turn[];
   elapsed_seconds: number;
   current_question?: Question;
@@ -150,6 +153,12 @@ export function turnFromQuestion(question: Question, answer: string): Turn {
 export function questionTypeLabel(
   question: Pick<Question, 'kind' | 'strategy'>,
 ): string {
+  if (question.strategy?.source === 'major') {
+    if (question.strategy.depth > 0) return '전공 꼬리질문';
+    return question.strategy.major_topic === 'issue'
+      ? '전공 이슈 질문'
+      : '전공 기초 질문';
+  }
   if (question.strategy?.source === 'intro')
     return question.strategy.depth > 0
       ? `${KIND_LABELS[question.kind]} 꼬리질문 · ${FOCUS_LABELS[question.strategy.focus]}`
@@ -183,8 +192,11 @@ export function resultForExport(result: InterviewResult) {
   };
 }
 
-export function formatResultText(result: InterviewResult): string {
-  return `MEA 모의 면접 결과\n진행 시간: ${formatTime(result.elapsed_seconds)}\n\n종합 피드백\n${result.summary}\n\n질문과 답변\n${result.turns.map((turn, index) => `${index + 1}. ${turn.question}\n질문 유형: ${questionTypeLabel(turn)}\n답변: ${turn.answer || '(답변하지 않음)'}`).join('\n\n')}`;
+export function formatResultText(
+  result: InterviewResult,
+  targetMajor?: string,
+): string {
+  return `MEA 모의 면접 결과\n${targetMajor?.trim() ? `지원학과: ${targetMajor.trim()}\n` : ''}진행 시간: ${formatTime(result.elapsed_seconds)}\n\n종합 피드백\n${result.summary}\n\n질문과 답변\n${result.turns.map((turn, index) => `${index + 1}. ${turn.question}\n질문 유형: ${questionTypeLabel(turn)}\n답변: ${turn.answer || '(답변하지 않음)'}`).join('\n\n')}`;
 }
 
 export function newActivity(): Activity {
@@ -198,8 +210,23 @@ export function newActivity(): Activity {
   };
 }
 
-const RAW_MARKERS =
-  /학교생활세부사항기록부|학교생활기록부|주민등록번호|인적[·ㆍ\s]*학적사항|학생정보\s*성명|발급번호|민원발급번호/;
+const PRIVATE_CONTEXT =
+  /학교\s*생활\s*(?:세부\s*사항\s*)?기록부|주민\s*등록\s*번호|인적\s*[·ㆍ・및]?\s*학적\s*사항|학생정보\s*성명|발급번호|민원발급번호|\d+\s*\.\s*출결\s*상황|(?<!\d)(?:\d{6}-?[1-4]\d{6}|01[016789][- .]?\d{3,4}[- .]?\d{4})(?!\d)|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
+
+export function containsPrivateInformation(value: string): boolean {
+  return PRIVATE_CONTEXT.test(value);
+}
+
+export function targetMajorError(
+  value: string,
+  required = true,
+): string | null {
+  if ((required && !value.trim()) || value.length > 100)
+    return '지원학과를 1~100자로 입력해주세요.';
+  if (containsPrivateInformation(value) || /[\u0000-\u001f]/.test(value))
+    return '지원학과에는 원문·연락처 등 개인정보를 넣을 수 없어요. 학과명만 입력해주세요.';
+  return null;
+}
 
 export function cleanActivities(activities: Activity[]): Activity[] {
   return activities.map((activity) => ({
@@ -236,7 +263,7 @@ export function activityDraftError(activities: Activity[]): string | null {
     if ((row.subject?.length ?? 0) > 100)
       return `${index + 1}번 활동의 과목명은 100자 이내로 입력해주세요.`;
     if (
-      RAW_MARKERS.test(
+      containsPrivateInformation(
         `${row.title}\n${row.core_content}\n${row.reflection}\n${row.subject ?? ''}`,
       )
     )
