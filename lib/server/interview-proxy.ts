@@ -1,3 +1,5 @@
+import { isAgentCoreSpeechSessionUrl } from '../speech-session-url';
+
 const MAX_JSON_BYTES = 512 * 1024;
 const MAX_AUDIO_BYTES = 10 * 1024 * 1024;
 const UPSTREAM_TIMEOUT_MS = 100_000;
@@ -130,7 +132,7 @@ export function isSameOrigin(request: Request): boolean {
 
 export async function proxyInterview(
   request: Request,
-  resource: 'stream' | 'capabilities' | 'transcribe',
+  resource: 'stream' | 'capabilities' | 'transcribe' | 'speech/session',
 ): Promise<Response> {
   if (!isSameOrigin(request))
     return error('이 페이지에서 다시 요청해주세요.', 403);
@@ -140,11 +142,12 @@ export async function proxyInterview(
   } catch {
     return error('면접 서버 연결 설정이 필요합니다.', 503);
   }
+  const isSpeechSession = resource === 'speech/session';
   let body: Uint8Array | undefined;
   const contentType = request.headers.get('content-type') || '';
   if (resource !== 'capabilities') {
     if (
-      resource === 'stream' &&
+      (resource === 'stream' || isSpeechSession) &&
       !contentType.toLowerCase().startsWith('application/json')
     )
       return error(
@@ -159,7 +162,11 @@ export async function proxyInterview(
     try {
       body = await boundedBody(
         request,
-        resource === 'stream' ? MAX_JSON_BYTES : MAX_AUDIO_BYTES + 8192,
+        isSpeechSession
+          ? 1024
+          : resource === 'stream'
+            ? MAX_JSON_BYTES
+            : MAX_AUDIO_BYTES + 8192,
       );
     } catch (reason) {
       return error(
@@ -169,10 +176,15 @@ export async function proxyInterview(
         reason instanceof RangeError ? 413 : 400,
       );
     }
-    if (resource === 'stream') {
+    if (resource === 'stream' || isSpeechSession) {
       try {
         const parsed: unknown = JSON.parse(new TextDecoder().decode(body));
-        if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed))
+        if (
+          !parsed ||
+          typeof parsed !== 'object' ||
+          Array.isArray(parsed) ||
+          (isSpeechSession && Object.keys(parsed).length !== 0)
+        )
           throw new Error();
       } catch {
         return error('입력 형식을 확인해주세요.', 400);
@@ -195,6 +207,9 @@ export async function proxyInterview(
         Accept:
           resource === 'stream' ? 'text/event-stream' : 'application/json',
         ...(body ? { 'Content-Type': contentType } : {}),
+        ...(isSpeechSession && request.headers.get('origin')
+          ? { Origin: request.headers.get('origin') as string }
+          : {}),
       },
       body: body ? new Uint8Array(body).buffer : undefined,
       signal: abort.signal,
@@ -211,6 +226,24 @@ export async function proxyInterview(
     }
     if (resource !== 'stream') {
       let data: unknown = await upstream.json();
+      if (isSpeechSession) {
+        if (
+          !data ||
+          typeof data !== 'object' ||
+          !('expires_in' in data) ||
+          data.expires_in !== 60 ||
+          !('websocket_url' in data) ||
+          !isAgentCoreSpeechSessionUrl(data.websocket_url)
+        ) {
+          cleanup();
+          return error(
+            '실시간 음성 연결 정보를 확인하지 못했습니다. 다시 시도해주세요.',
+            503,
+          );
+        }
+        data = { websocket_url: data.websocket_url, expires_in: 60 };
+      }
+
       if (
         resource === 'capabilities' &&
         data &&
@@ -218,12 +251,18 @@ export async function proxyInterview(
         'speech_streaming' in data &&
         data.speech_streaming === true
       ) {
-        const websocketUrl = speechWebSocketUrl(request);
-        data = {
-          ...data,
-          speech_streaming: Boolean(websocketUrl),
-          speech_websocket_url: websocketUrl ?? undefined,
-        };
+        if ('speech_session' in data && data.speech_session === true) {
+          // A fresh signed URL is obtained when recording starts, not while
+          // preparing activities. Never replace it with a Lambda-derived WSS URL.
+          data = { ...data, speech_websocket_url: undefined };
+        } else {
+          const websocketUrl = speechWebSocketUrl(request);
+          data = {
+            ...data,
+            speech_streaming: Boolean(websocketUrl),
+            speech_websocket_url: websocketUrl ?? undefined,
+          };
+        }
       }
       cleanup();
       return Response.json(data, { headers: privateHeaders });

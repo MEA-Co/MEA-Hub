@@ -1,5 +1,8 @@
+import { isAgentCoreSpeechSessionUrl } from '../../../lib/speech-session-url';
+
 export type LiveSpeechOptions = {
   url: string;
+  agentCoreSession?: boolean;
   stream: MediaStream;
   onReady: () => void;
   onFinalizing: () => void;
@@ -155,7 +158,7 @@ export function createLiveSpeechSession(
         fail(
           '실시간 음성에 연결하지 못했습니다. 잠시 후 다시 시도하거나 채팅으로 입력해주세요.',
         ),
-      15000,
+      options.agentCoreSession ? 45000 : 15000,
     );
     try {
       const url = new URL(options.url);
@@ -163,8 +166,10 @@ export function createLiveSpeechSession(
         !['ws:', 'wss:'].includes(url.protocol) ||
         url.username ||
         url.password ||
-        url.search ||
-        url.hash
+        url.hash ||
+        (options.agentCoreSession
+          ? !isAgentCoreSpeechSessionUrl(options.url)
+          : Boolean(url.search))
       )
         throw new Error('Invalid live speech address');
       context = env.createContext();
@@ -208,7 +213,10 @@ export function createLiveSpeechSession(
             return;
           }
           totalBytes += buffer.byteLength;
-          socket.send(buffer);
+          // AgentCore accepts at most 32 KB in one WebSocket frame. A larger
+          // worklet flush is split without dropping or reordering PCM samples.
+          for (let offset = 0; offset < buffer.byteLength; offset += 32768)
+            socket.send(buffer.slice(offset, offset + 32768));
         } else if (event.data?.type === 'flushed' && stopping) {
           clearTimer(flushTimer);
           releaseAudio();

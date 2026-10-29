@@ -1,9 +1,14 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { createLiveSpeechSession } from './live-speech.ts';
+import { loadTypeScript } from '../../../tests/helpers/load-typescript.mjs';
+import { speechSessionFixture } from '../../../tests/helpers/speech-session-fixture.mjs';
 
-function harness(modulePromise = Promise.resolve()) {
+const { createLiveSpeechSession } = loadTypeScript(
+  new URL('./live-speech.ts', import.meta.url),
+);
+
+function harness(modulePromise = Promise.resolve(), connection = {}) {
   const events = {
     ready: 0,
     finalizing: 0,
@@ -77,6 +82,7 @@ function harness(modulePromise = Promise.resolve()) {
   const session = createLiveSpeechSession(
     {
       url: 'ws://localhost:8100/api/interview/speech',
+      ...connection,
       stream,
       onReady: () => {
         events.ready += 1;
@@ -278,4 +284,66 @@ test('odd byte PCM frames are rejected before network transmission', async () =>
   );
   assert.equal(h.events.errors.length, 1);
   assert.equal(h.track.stopped, true);
+});
+
+test('large even worklet frames are split into ordered AgentCore-sized pieces', async () => {
+  const h = harness();
+  await h.start();
+  const frame = new Uint8Array(65536);
+  frame.fill(3, 0, 32768);
+  frame.fill(7, 32768);
+  h.emit({ type: 'pcm', buffer: frame.buffer });
+  const sent = h.socket.sent.filter((value) => value instanceof ArrayBuffer);
+  assert.deepEqual(
+    sent.map((value) => value.byteLength),
+    [32768, 32768],
+  );
+  assert.equal(new Uint8Array(sent[0])[0], 3);
+  assert.equal(new Uint8Array(sent[1])[0], 7);
+  h.session.cancel();
+});
+
+test('only explicitly requested signed sessions can carry origin-bound AWS query signatures', async () => {
+  const valid = harness(Promise.resolve(), {
+    url: speechSessionFixture(),
+    agentCoreSession: true,
+  });
+  await valid.start();
+  valid.session.cancel();
+  for (const connection of [
+    { url: speechSessionFixture() },
+    {
+      url: 'wss://other.example.com/ws?key=synthetic-private-key',
+      agentCoreSession: true,
+    },
+  ]) {
+    const rejected = harness(Promise.resolve(), connection);
+    await assert.rejects(rejected.session.start());
+    assert.equal(rejected.track.stopped, true);
+    assert.equal(rejected.events.errors.length, 1);
+    assert.doesNotMatch(
+      rejected.events.errors[0],
+      /synthetic-private-key|X-Amz/,
+    );
+  }
+});
+
+test('a managed runtime cold start has its own bounded 45-second readiness budget', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  let release;
+  const h = harness(
+    new Promise((resolve) => {
+      release = resolve;
+    }),
+    { url: speechSessionFixture(), agentCoreSession: true },
+  );
+  const pending = h.session.start();
+  t.mock.timers.tick(15001);
+  assert.equal(h.track.stopped, false);
+  assert.equal(h.events.errors.length, 0);
+  t.mock.timers.tick(30000);
+  assert.equal(h.track.stopped, true);
+  release();
+  await assert.rejects(pending, /연결하지 못했습니다/);
+  assert.equal(h.events.errors.length, 1);
 });

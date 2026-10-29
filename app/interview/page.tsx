@@ -123,6 +123,7 @@ export default function InterviewPage() {
   const [targetMajor, setTargetMajor] = useState('');
   const [targetMajorIssue, setTargetMajorIssue] = useState('');
   const [majorAttention, setMajorAttention] = useState(0);
+  const [speechSession, setSpeechSession] = useState(false);
   const interview = useInterview();
   const consentBlock = useRef<HTMLDivElement | null>(null);
   const consentBox = useRef<HTMLInputElement | null>(null);
@@ -148,7 +149,11 @@ export default function InterviewPage() {
       receiveSpeech(text);
       answerBox.current?.focus();
     },
-    { websocketUrl: speechWebsocketUrl, onPartial: receiveSpeech },
+    {
+      websocketUrl: speechWebsocketUrl,
+      sessionBased: speechSession,
+      onPartial: receiveSpeech,
+    },
   );
 
   useEffect(() => {
@@ -161,12 +166,18 @@ export default function InterviewPage() {
           const capabilities = body as Record<string, unknown>;
           const canStream =
             capabilities.speech_streaming === true &&
-            typeof capabilities.speech_websocket_url === 'string' &&
+            (capabilities.speech_session === true ||
+              typeof capabilities.speech_websocket_url === 'string') &&
             typeof AudioContext !== 'undefined' &&
             typeof AudioWorkletNode !== 'undefined' &&
             'audioWorklet' in AudioContext.prototype;
-          if (canStream)
-            setSpeechWebsocketUrl(capabilities.speech_websocket_url as string);
+          if (canStream) {
+            setSpeechSession(capabilities.speech_session === true);
+            if (capabilities.speech_session !== true)
+              setSpeechWebsocketUrl(
+                capabilities.speech_websocket_url as string,
+              );
+          }
           setSpeechAvailable(
             capabilities.speech_recognition === true || canStream,
           );
@@ -973,7 +984,7 @@ export default function InterviewPage() {
               )}
               {speechAvailable && (
                 <p className="mt-3 text-xs leading-5 text-neutral-400">
-                  {speechWebsocketUrl
+                  {speechWebsocketUrl || speechSession
                     ? '말하는 동안 인식된 내용이 답변에 표시됩니다. 녹음은 최대 2분이며, 녹음 완료 후 마지막 문장을 확인하고 직접 제출할 수 있어요.'
                     : '이 환경에서는 녹음 완료 후 음성을 인식합니다. 녹음은 최대 2분이며, 내용을 수정한 다음 직접 제출할 수 있어요.'}
                 </p>

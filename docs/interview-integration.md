@@ -1,6 +1,6 @@
 # 모의 면접 구현 및 실행 안내
 
-갱신일: 2026-10-29 · 활동 질문의 맥락 선택·지원학과·전공 질문 반영
+갱신일: 2026-10-29 · 활동·전공 정책과 운영 실시간 음성 연결
 
 ## 학생 화면과 입력
 
@@ -123,15 +123,22 @@ MEA 면접 준비 TXT v1
 
 ## 채팅·음성·저장과 서버 연결
 
-채팅은 항상 사용할 수 있습니다. CLOVA 실시간 게이트웨이를 설정한 경우 AudioWorklet이 16kHz·모노·16비트 PCM을 약 100ms 단위로 Core WebSocket에 전송하고 녹음 중 문장을 표시합니다. 최대 녹음은 2분이며, 완료 시 마지막 조각과 최종 문장을 확인한 후 학생이 직접 수정·제출합니다. 기존 작성 답변과 음성 부분은 구분해 중복 없이 갱신합니다. 오류·취소에도 인식한 내용을 남기며 탭 이동·종료 시 마이크와 연결을 정리합니다.
+채팅은 항상 사용할 수 있습니다. 운영 음성은 기존 질문용 Lambda를 유지하면서 별도 Amazon Bedrock AgentCore Runtime에 연결합니다. AudioWorklet이 16kHz·모노·16비트 PCM을 약 100ms 단위로 전송하며, 전송 프레임은 32KB 이내입니다. 최대 녹음은 2분이고 인식된 문장을 녹음 중 표시합니다. ‘녹음 완료’ 뒤 마지막 문장을 확인하고 학생이 직접 수정·제출합니다. 음성 출력은 제공하지 않습니다.
 
-AudioWorklet 미지원 또는 HTTPS 파일 인식만 설정된 경우 녹음 완료 후 WAV 전송으로 대체하고 이를 안내합니다. 음성 실패 후에도 채팅은 사용할 수 있습니다. 음성 출력은 제공하지 않습니다.
+`GET /api/interview/capabilities`의 `speech_session=true`, `speech_streaming=true`이면 매 녹음 시작마다 Hub가 같은 출처의 `POST /api/interview/speech/session`으로 새 연결을 발급받습니다. Core는 허용된 `Origin`을 확인하고 `{websocket_url, expires_in:60}`을 반환합니다. 이 60초는 새 WebSocket을 여는 기한이며 이미 열린 연결의 2분 녹음 시간과 다릅니다. 준비 요청 취소 시 늦게 도착한 URL로 연결하지 않습니다. AgentCore 연결 준비 예산은 45초, 로컬 정적 연결은 기존 15초입니다.
+
+URL은 실행 역할로 서명한 임시 접속 자격정보입니다. 기본 주소·ARN·새 UUID 세션·60초 만료·`Origin`을 서명에 묶고, Core와 Hub가 캐시하지 않습니다. CLOVA 키와 AWS 비밀 액세스키 자체는 브라우저에 보내지 않습니다. URL 전체와 서명 쿼리는 로그·분석 도구에 남기지 않으며 음성 컨테이너의 접속 로그도 끕니다. AgentCore가 `Origin`을 직접 전달할 수 없어 서명된 `X-Amzn-Bedrock-AgentCore-Runtime-Custom-Speech-Origin`만 허용 목록으로 전달하고, 전용 어댑터에서 기존 허용 출처 검증을 적용합니다. 누락·미허용 출처와 헤더 불일치는 연결을 거부합니다.
+
+전용 `app.speech_runtime:app`은 ARM64 컨테이너의 8080 포트에서 `/ws`와 `/ping`을 제공합니다. 연결 중에는 `HealthyBusy`, 종료 후에는 `Healthy`를 반환하고 매 ping마다 시각을 갱신하지 않습니다. 세션 유휴 제한은 60초, 최대 수명은 240초이며 사용량 기반 런타임을 사용합니다. 음성 앱은 질문·평가·DB 라우터를 불러오지 않아 별도 최소 의존성으로 부팅합니다.
+
+로컬 Uvicorn의 기존 `/api/interview/speech` 연결은 유지합니다. 로컬의 HTTPS 파일 인식 또는 업로드 인식도 남아 있지만, 운영 Lambda는 긴 녹음의 30초 HTTP 처리 한도 때문에 `speech_recognition=false`로 파일 대체 기능을 광고하지 않습니다. 운영에서는 AudioWorklet이 없거나 실시간 연결에 실패하면 채팅을 사용합니다. 기존 작성 답변과 인식 부분을 중복 없이 갱신하고 오류·취소에도 받은 문장을 유지하며 탭 이동·종료 시 마이크와 연결을 정리합니다.
 
 ```text
-Hub /interview → Hub /api/interview/stream → Core /api/interview/stream → OpenAI
-브라우저 AudioWorklet → Core /api/interview/speech (WebSocket) → CLOVA gRPC
-Hub /api/interview/transcribe → Core /api/interview/transcribe (파일 인식 대체)
-Hub /api/interview/capabilities → Core 기능 설정
+Hub /interview → Hub /api/interview/stream → Core Lambda /api/interview/stream → OpenAI
+브라우저 → Hub /api/interview/speech/session → Core Lambda → 60초 서명 WSS URL
+브라우저 AudioWorklet → AgentCore /ws → CLOVA gRPC → 실시간 문장
+로컬 브라우저 → Core Uvicorn /api/interview/speech → CLOVA gRPC
+Hub /api/interview/capabilities → Core의 사용 가능한 입력 기능
 ```
 
 현재 화면은 DB 저장 API를 호출하지 않습니다. 이전 `/api/interview/activities` GET/PUT는 호환을 위해 유지하며 DB가 설정된 경우 명시적 PUT만 초안을 저장합니다. 소유 토큰 해시와 revision 비교를 사용하고 다른 DB 테이블은 수정하지 않습니다. 로그인·기기 간 복구·면접 대화/결과 자동 저장은 없습니다. DB가 없으면 준비 TXT만으로 사용할 수 있습니다.
@@ -141,17 +148,20 @@ Hub /api/interview/capabilities → Core 기능 설정
 | 위치 | 변수                                              | 용도                                                     |
 | ---- | ------------------------------------------------- | -------------------------------------------------------- |
 | Hub  | CORE_API_URL                                      | Core 기본 주소, 기존 NEXT_PUBLIC_BACKEND_ORIGIN보다 우선 |
-| Hub  | INTERVIEW_SPEECH_WS_URL                           | 선택적인 브라우저 공개 WebSocket 주소                    |
+| Hub  | INTERVIEW_SPEECH_WS_URL                           | 로컬·자체 서버용 선택 정적 WebSocket 주소, 운영 세션 발급에서는 사용하지 않음 |
+| Core | INTERVIEW_SPEECH_RUNTIME_ARN                       | 운영 AgentCore ARN, SAM 출력에서 Lambda에 연결            |
 | Core | OPENAI_API_KEY                                    | 실제 질문·평가에 필요                                    |
 | Core | INTERVIEW_MODEL                                   | 기본 gpt-6-luna, 해당 모델은 reasoning_effort=none       |
 | Core | INTERVIEW_DEMO_MODE=true                          | 실제 AI 호출 없는 명시적 예시 모드                       |
 | Core | ALLOWED_ORIGINS                                   | 허용 Hub Origin 목록, 쉼표 구분                          |
-| Core | CLOVA_SPEECH_INVOKE_URL / CLOVA_SPEECH_SECRET_KEY | 음성 설정, 이전 CLOVA_HOST / CLOVA_SECRET_KEY도 지원     |
+| Core·음성 런타임 | CLOVA_SPEECH_INVOKE_URL / CLOVA_SPEECH_SECRET_KEY | 음성 설정, 이전 CLOVA_HOST / CLOVA_SECRET_KEY도 지원 |
 | Core | INTERVIEW_DATABASE_URL / DATABASE_URL             | 선택적인 기존 활동 저장 API용 DB                         |
 
-Core는 로컬 `.env`를 읽지만 파일이나 키를 브라우저에 전달하지 않습니다. 저장소의 SAM 배포 설정은 GitHub repository secret `OPENAI_API_KEY`를 빌드 전 확인하고, 배포 단계의 제한된 임시 설정 파일에서 CloudFormation `OpenAIApiKey` NoEcho parameter를 거쳐 Lambda 환경에 전달합니다. 키를 이미지·소스·Metadata·Output에 넣지 않으며 임시 설정·로그는 종료 시 정리합니다. 실제 secret 등록과 운영 환경 주입 여부는 별도 운영 확인 사항입니다. CLOVA·DB 설정은 이 키 연결과 별개입니다.
+Core는 로컬 `.env`를 읽지만 파일이나 키를 브라우저에 전달하지 않습니다. SAM 배포는 GitHub 비밀설정 `OPENAI_API_KEY`, `CLOVA_SPEECH_INVOKE_URL`, `CLOVA_SPEECH_SECRET_KEY`를 빌드 전에 확인합니다. 두 CLOVA 설정과 OpenAI 키는 CloudFormation `NoEcho` 파라미터를 거쳐 환경에 주입하며, 제한된 임시 설정·로그는 종료 시 정리합니다. 음성 컨테이너는 CLOVA·허용 출처 설정만 사용하고 질문·DB 설정은 요구하지 않습니다.
 
-기존 Lambda 경로는 HTTP API Gateway + Mangum + 30초 제한으로 응답을 모아 반환합니다. 실시간 응답에는 Uvicorn 서버 또는 별도 응답 스트리밍 배포가 필요합니다. 실시간 음성도 지속적인 WebSocket 업그레이드와 HTTPS Hub에서 WSS가 필요하며, 공개 주소·Origin·연결 유지 시간을 운영 환경에 맞춰 제공해야 합니다. Hub 스트림 프록시는 실행 설정 120초·연결 제한 100초, DB 프록시는 20초 제한입니다.
+CI는 ARM64 음성 이미지를 올리고 Runtime을 구성한 뒤 MMDSV2를 요구하도록 업데이트하고 준비 상태를 확인합니다. Lambda 역할에는 해당 Runtime과 `DEFAULT` 엔드포인트의 WebSocket 호출 권한만 추가합니다. 서명 URL에는 역할의 비밀 액세스키를 넣지 않습니다. 실제 비밀설정 등록·권한·준비 상태와 종단 음성 시험은 배포 단계에서 별도로 확인합니다.
+
+질문·평가의 기존 HTTP API Gateway + Mangum + Lambda 30초 경로는 유지합니다. 음성만 AgentCore의 지속적인 WSS 연결을 사용하므로 긴 녹음이 해당 HTTP 요청 한도에 묶이지 않습니다. Hub 스트림 프록시는 실행 설정 120초·연결 제한 100초, DB 프록시는 20초 제한입니다.
 
 ```sh
 # Core
@@ -162,16 +172,16 @@ ALLOWED_ORIGINS=http://localhost:3001,http://127.0.0.1:3001 .venv/bin/python -m 
 CORE_API_URL=http://127.0.0.1:8000 npm run dev -- --hostname 127.0.0.1 --port 3001
 ```
 
-이번 활동·전공 정책 변경은 로컬 구현·검증 상태입니다. 이 변경의 푸시·운영 배포나 실제 키 등록은 수행하지 않았습니다. 로컬 테스트 통과가 운영의 키·주소·스트리밍 지원을 보장하지 않습니다.
+이번 실시간 음성 경로는 작업 사본 구현·검증을 완료한 운영 배포 전 상태입니다. 아래 실제 제공자 시험은 로컬 경로의 결과이며 AWS 배포·브라우저 종단 검증 완료를 뜻하지 않습니다.
 
 ## 검증
 
-현재 변경에 대한 자동 회귀는 **Core 402개, Hub 132개**가 통과했습니다. Core는 구조화 1회 호출·충분 답변 조기 전환·후속 상한·허용 후보/관점·잘못된 JSON/거절·문맥 예산·정정·모름·전환 안내·공동 root 한도·학과 관련성 분산·공식 근거 문맥을 확인합니다. Hub는 지원학과 필수/개인정보 검증, 준비 TXT의 지원 정보·선택 섹션 왕복과 이전 파일 호환, snapshot·재시도·전략 보존, 전환 안내와 답변/결과의 분리, 컴포넌트 행동을 확인합니다.
+현재 변경에 대한 자동 회귀는 **Core 426개, Hub 146개**가 통과했습니다. Core는 구조화 1회 호출·충분 답변 조기 전환·후속 상한·허용 후보/관점·잘못된 JSON/거절·문맥 예산·정정·모름·전환 안내·공동 root 한도·학과 관련성 분산·공식 근거 문맥을 확인합니다. Hub는 지원학과 필수/개인정보 검증, 준비 TXT의 지원 정보·선택 섹션 왕복과 이전 파일 호환, snapshot·재시도·전략 보존, 전환 안내와 답변/결과의 분리, 컴포넌트 행동을 확인합니다. 추가 음성 검증은 서명 URL·출처 거부·Runtime 부팅 분리와 ping 상태, 매 녹음 세션 갱신·취소·프레임 한도·콜드 스타트 예산을 확인합니다.
 
 ```sh
 # Core
 .venv/bin/python -m pytest -q
-.venv/bin/ruff check app/interview app/main.py tests
+.venv/bin/ruff check app tests
 
 # Hub
 npm run test:interview
@@ -180,7 +190,7 @@ npm run typecheck
 npm run build
 ```
 
-자동 회귀에는 합성 입력과 가짜 모델/서버 응답을 사용합니다. 별도로 로컬 서버에서 실제 모델의 구조화 질문 네 경우와 Hub의 준비 TXT 보존·전공 전략 왕복 흐름을 확인했습니다. 이 확인은 실제 음성·운영 배포 검증이나 모든 문답의 품질 보장을 뜻하지 않습니다. 면접 관련 lint/type/build는 별도 확인하며 전체 Hub lint의 다른 기능 오류와 섞지 않습니다.
+자동 회귀에는 합성 입력과 가짜 모델/서버 응답을 사용합니다. 별도로 로컬 서버에서 실제 모델의 구조화 질문 네 경우와 Hub의 준비 TXT 보존·전공 전략 왕복 흐름을 확인했습니다. 별도로 실제 CLOVA에 115초 합성 음성을 실시간 속도로 전송한 로컬 시험에서 부분 결과 48개, 첫 부분 결과 4.54초, 종료 표지 뒤 최종 완료 0.16초를 확인했습니다. 이 수치는 AWS 배포 경로·실제 학생 음성·모든 환경의 지연을 보장하지 않습니다. 면접 관련 lint/type/build는 별도 확인하며 전체 Hub lint의 다른 기능 오류와 섞지 않습니다.
 
 ## 근거 자료
 
@@ -195,3 +205,5 @@ npm run build
 - [St. Louis Fed 기회비용](https://www.stlouisfed.org/publications/page-one-economics/2019/10/01/money-and-missed-opportunities), [UNESCO 정보 리터러시](https://www.unesco.org/en/media-information-literacy), [W3C 접근성](https://www.w3.org/WAI/fundamentals/accessibility-intro/)
 - [FastAPI StreamingResponse](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse), [WebSocket](https://fastapi.tiangolo.com/advanced/websockets/), [AudioWorkletProcessor](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletProcessor)
 - [Next.js Route Handlers](https://nextjs.org/docs/app/api-reference/file-conventions/route), [Mangum HTTP 처리](https://mangum.fastapiexpert.com/http/)
+
+- [AgentCore WebSocket 연결·서명 URL](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-get-started-websocket.html), [HTTP·ping 프로토콜](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-http-protocol-contract.html), [허용 헤더·Origin 제한](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-header-allowlist.html)

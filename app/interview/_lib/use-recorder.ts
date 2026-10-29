@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { createLiveSpeechSession } from './live-speech';
+import { requestSpeechSession, SpeechSessionError } from './speech-session';
 
 async function toWave(blob: Blob): Promise<Blob> {
   const context = new AudioContext();
@@ -55,9 +56,14 @@ async function toWave(blob: Blob): Promise<Blob> {
 export function useRecorder(
   enabled: boolean,
   onText: (text: string) => void,
-  options?: { websocketUrl?: string; onPartial?: (text: string) => void },
+  options?: {
+    websocketUrl?: string;
+    sessionBased?: boolean;
+    onPartial?: (text: string) => void;
+  },
 ) {
   const websocketUrl = options?.websocketUrl;
+  const sessionBased = options?.sessionBased === true;
   const [recording, setRecording] = useState(false);
   const [preparing, setPreparing] = useState(false);
   const [transcribing, setTranscribing] = useState(false);
@@ -144,6 +150,16 @@ export function useRecorder(
       );
       return;
     }
+    if (
+      sessionBased &&
+      (typeof AudioWorkletNode === 'undefined' ||
+        !('audioWorklet' in AudioContext.prototype))
+    ) {
+      setError(
+        '이 브라우저에서는 실시간 음성을 사용할 수 없습니다. 채팅으로 답변해주세요.',
+      );
+      return;
+    }
     const token = ++generation.current;
     requesting.current = true;
     setPreparing(true);
@@ -154,16 +170,33 @@ export function useRecorder(
         return;
       }
       tracks.current = media;
+      let connectionUrl = websocketUrl;
+      if (sessionBased) {
+        const abort = new AbortController();
+        controller.current = abort;
+        const timeout = setTimeout(() => abort.abort(), 20000);
+        try {
+          connectionUrl = await requestSpeechSession(abort.signal);
+        } finally {
+          clearTimeout(timeout);
+          if (controller.current === abort) controller.current = null;
+        }
+        if (!active.current || token !== generation.current) {
+          media.getTracks().forEach((track) => track.stop());
+          return;
+        }
+      }
       const liveSupported = Boolean(
-        websocketUrl &&
+        connectionUrl &&
           typeof AudioWorkletNode !== 'undefined' &&
           'audioWorklet' in AudioContext.prototype,
       );
       setStreaming(liveSupported);
-      if (liveSupported && websocketUrl) {
+      if (liveSupported && connectionUrl) {
         const current = () => active.current && token === generation.current;
         const session = createLiveSpeechSession({
-          url: websocketUrl,
+          url: connectionUrl,
+          agentCoreSession: sessionBased,
           stream: media,
           onReady: () => {
             if (current()) {
@@ -293,11 +326,13 @@ export function useRecorder(
         if (capture.state === 'recording') capture.stop();
       }, 120000);
       timer.current = recordingTimer;
-    } catch {
+    } catch (cause) {
       if (token !== generation.current) return;
       cancel();
       setError(
-        '마이크를 사용할 수 없습니다. 브라우저의 마이크 권한을 확인하거나 채팅으로 입력해주세요.',
+        cause instanceof SpeechSessionError
+          ? cause.message
+          : '마이크를 사용할 수 없습니다. 브라우저의 마이크 권한을 확인하거나 채팅으로 입력해주세요.',
       );
     } finally {
       if (token === generation.current) {
@@ -305,7 +340,7 @@ export function useRecorder(
         setPreparing(false);
       }
     }
-  }, [cancel, websocketUrl, preparing, transcribing]);
+  }, [cancel, websocketUrl, sessionBased, preparing, transcribing]);
 
   return {
     recording,

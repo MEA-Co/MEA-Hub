@@ -115,6 +115,7 @@ function page({
   activeTab = 'activities',
   result = null,
   targetMajor = '컴퓨터공학과',
+  speechSession = false,
   interview: overrides = {},
 } = {}) {
   const panels = {};
@@ -159,9 +160,13 @@ function page({
             ? true
             : index === 4
               ? plain(activities)
-              : index === 11
-                ? targetMajor
-                : value,
+              : index === 6 && speechSession
+                ? true
+                : index === 11
+                  ? targetMajor
+                  : index === 14
+                    ? speechSession
+                    : value,
     modules: {
       './_components/interview-workspace': {
         InterviewWorkspace: ({ children }) => children,
@@ -421,4 +426,32 @@ test('preparation TXT includes target major and activity-only imports preserve i
   stateful.panels.text.onImport({ activities, targetMajor: '' });
   stateful.render();
   assert.equal(stateful.panels.text.targetMajor, '');
+});
+
+test('session-based recognition exposes the microphone and live guidance without a static websocket URL', () => {
+  const view = page({
+    phase: 'live',
+    activeTab: 'interview',
+    speechSession: true,
+    interview: {
+      question: { kind: 'activity', text: '활동에서 무엇을 했나요?' },
+    },
+  });
+  assert.equal(view.button('음성으로 입력').props.disabled, false);
+  assert.equal(
+    view.all(
+      (node) =>
+        node.type === 'p' &&
+        view.text(node).includes('말하는 동안 인식된 내용'),
+    ).length,
+    1,
+  );
+  assert.equal(
+    view.all(
+      (node) =>
+        node.type === 'p' &&
+        view.text(node).includes('이 환경에서는 녹음 완료 후'),
+    ).length,
+    0,
+  );
 });
