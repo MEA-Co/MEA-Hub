@@ -1,21 +1,11 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import ts from 'typescript';
+import { loadTypeScript } from './helpers/load-typescript.mjs';
+import { speechSessionFixture } from './helpers/speech-session-fixture.mjs';
 
-const source = await readFile(
+const { proxyInterview, coreBaseUrl } = loadTypeScript(
   new URL('../lib/server/interview-proxy.ts', import.meta.url),
-  'utf8',
-);
-const { outputText } = ts.transpileModule(source, {
-  compilerOptions: {
-    module: ts.ModuleKind.ESNext,
-    target: ts.ScriptTarget.ES2022,
-  },
-});
-const { proxyInterview, coreBaseUrl } = await import(
-  `data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`
 );
 const originalFetch = globalThis.fetch;
 const originalUrl = process.env.CORE_API_URL;
@@ -331,4 +321,98 @@ test('Core base path and TLS protocol are preserved in derived speech address', 
     (await response.json()).speech_websocket_url,
     'wss://core.example.com/backend/api/interview/speech',
   );
+});
+
+test('session-based streaming does not advertise the Lambda-derived websocket address', async () => {
+  process.env.CORE_API_URL = 'https://lambda.example.com';
+  process.env.INTERVIEW_SPEECH_WS_URL = 'wss://obsolete.example.com/speech';
+  globalThis.fetch = async () =>
+    Response.json({
+      speech_recognition: false,
+      speech_streaming: true,
+      speech_session: true,
+    });
+  const response = await proxyInterview(
+    new Request('https://hub.mea.kr/api/interview/capabilities'),
+    'capabilities',
+  );
+  assert.deepEqual(await response.json(), {
+    speech_recognition: false,
+    speech_streaming: true,
+    speech_session: true,
+  });
+});
+
+test('speech session POST forwards only verified Origin and returns the bounded temporary connection contract', async () => {
+  process.env.CORE_API_URL = 'https://core.test';
+  const signed = speechSessionFixture();
+  globalThis.fetch = async (url, options) => {
+    assert.equal(url, 'https://core.test/api/interview/speech/session');
+    assert.equal(options.method, 'POST');
+    assert.equal(options.headers.Origin, 'https://hub.mea.kr');
+    assert.equal(options.headers.Cookie, undefined);
+    assert.equal(new TextDecoder().decode(options.body), '{}');
+    return Response.json({
+      websocket_url: signed,
+      expires_in: 60,
+      debug: 'PRIVATE_PROVIDER_DETAILS',
+    });
+  };
+  const response = await proxyInterview(
+    new Request('https://hub.mea.kr/api/interview/speech/session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Origin: 'https://hub.mea.kr',
+        Cookie: 'PRIVATE_COOKIE',
+      },
+      body: '{}',
+    }),
+    'speech/session',
+  );
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('Cache-Control'), 'no-store');
+  assert.deepEqual(await response.json(), {
+    websocket_url: signed,
+    expires_in: 60,
+  });
+});
+
+test('speech session rejects cross-origin requests, unexpected input and untrusted signed addresses', async () => {
+  process.env.CORE_API_URL = 'https://core.test';
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    return Response.json({
+      websocket_url: 'wss://other.test?PRIVATE_SECRET',
+      expires_in: 60,
+    });
+  };
+  const incoming = (origin, body = '{}') =>
+    new Request('https://hub.mea.kr/api/interview/speech/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Origin: origin },
+      body,
+    });
+  assert.equal(
+    (await proxyInterview(incoming('https://other.test'), 'speech/session'))
+      .status,
+    403,
+  );
+  assert.equal(
+    (
+      await proxyInterview(
+        incoming('https://hub.mea.kr', '{"audio":"unexpected"}'),
+        'speech/session',
+      )
+    ).status,
+    400,
+  );
+  assert.equal(calls, 0);
+  const rejected = await proxyInterview(
+    incoming('https://hub.mea.kr'),
+    'speech/session',
+  );
+  assert.equal(rejected.status, 503);
+  assert.doesNotMatch(await rejected.text(), /PRIVATE_SECRET/);
 });

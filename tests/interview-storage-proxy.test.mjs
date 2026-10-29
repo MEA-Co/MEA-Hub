@@ -1,31 +1,11 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import ts from 'typescript';
+import { loadTypeScript } from './helpers/load-typescript.mjs';
 
-function moduleUrl(source) {
-  const { outputText } = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.ESNext,
-      target: ts.ScriptTarget.ES2022,
-    },
-  });
-  return `data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`;
-}
-const helper = moduleUrl(
-  await readFile(
-    new URL('../lib/server/interview-proxy.ts', import.meta.url),
-    'utf8',
-  ),
+const { proxyActivityStorage } = loadTypeScript(
+  new URL('../lib/server/interview-storage-proxy.ts', import.meta.url),
 );
-const source = (
-  await readFile(
-    new URL('../lib/server/interview-storage-proxy.ts', import.meta.url),
-    'utf8',
-  )
-).replace("from './interview-proxy'", `from '${helper}'`);
-const { proxyActivityStorage } = await import(moduleUrl(source));
 const originalFetch = globalThis.fetch;
 const originalUrl = process.env.CORE_API_URL;
 const token = 'a'.repeat(43);
