@@ -424,13 +424,6 @@ export default function InterviewPage() {
             지원학과{' '}
             <span className="ml-1 text-xs font-normal text-red-700">필수</span>
           </label>
-          <p
-            id="target-major-help"
-            className="mt-1 text-xs leading-6 text-neutral-500"
-          >
-            연습하려는 지원학과를 적어주세요. 활동과 전공 질문의 맥락에
-            참고합니다. 학교명·연락처 등 개인정보는 넣지 마세요.
-          </p>
           <input
             ref={targetMajorBox}
             id="target-major"
@@ -440,7 +433,7 @@ export default function InterviewPage() {
             maxLength={100}
             disabled={interview.phase === 'live'}
             aria-invalid={Boolean(targetMajorIssue) || undefined}
-            aria-describedby={`target-major-help${targetMajorIssue ? ' target-major-error' : ''}`}
+            aria-describedby={targetMajorIssue ? 'target-major-error' : undefined}
             onChange={(event) => {
               if (interview.phase === 'live') return;
               setTargetMajor(event.target.value);
